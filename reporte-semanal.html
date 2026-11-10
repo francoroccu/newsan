@@ -1,0 +1,1550 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newsan Chile · Reporte semanal</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+ --disp:Montserrat,"Segoe UI",system-ui,-apple-system,sans-serif;
+ --navy:#073763;--navy2:#0B4A82;--deep:#04223E;--sky:#7BB3D9;--sky2:#B9D7EE;--ice:#EAF3FB;
+ --bg:#EEF3F8;--surface:#FFFFFF;--ink:#0F1E2C;--ink2:#46576A;--mut:#8796A6;--line:#DDE6EF;
+ --ok:#1E8A55;--okw:#E2F4EA;--mid:#C27A0E;--midw:#FCF0DC;--bad:#C73A2E;--badw:#FBE6E3;
+ --shadow:0 1px 2px rgba(7,55,99,.06),0 8px 24px -12px rgba(7,55,99,.18);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+ --bg:#08131F;--surface:#0F1D2C;--ink:#E9F0F7;--ink2:#A9B9CA;--mut:#73869A;--line:#1E3043;--ice:#132A40;
+ --okw:#10291D;--midw:#2E2210;--badw:#331816;--ok:#46C285;--mid:#E8A945;--bad:#F07468;
+ --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);}}
+:root[data-theme=dark]{--bg:#08131F;--surface:#0F1D2C;--ink:#E9F0F7;--ink2:#A9B9CA;--mut:#73869A;--line:#1E3043;--ice:#132A40;--okw:#10291D;--midw:#2E2210;--badw:#331816;--ok:#46C285;--mid:#E8A945;--bad:#F07468;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14.5px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3,.num{font-family:var(--disp)}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;background:var(--deep);color:#fff;display:flex;flex-direction:column;padding:22px 16px 18px;overflow-y:auto;
+ background-image:radial-gradient(120% 60% at 0% 0%,rgba(123,179,217,.18),transparent 60%)}
+.logo{display:block;background:#fff;border-radius:14px;padding:12px 18px;margin:0 4px 26px}
+.logo img{display:block;width:100%;max-width:150px;height:auto;margin:0 auto}
+.side .grp-l{font-size:12px;color:#7FA2C4;margin:14px 12px 6px;font-weight:500}
+.nav button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:#C9DAEC;font-size:14px;font-weight:500;
+ padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left}
+.nav button:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav button[aria-current=true]{background:#fff;color:var(--navy);font-weight:600}
+.nav .sd{width:8px;height:8px;border-radius:50%;flex:0 0 8px;background:#3F6589}
+.nav .sd.ok{background:#46C285}.nav .sd.mid{background:#E8A945}.nav .sd.bad{background:#F07468}
+.nav .ct{margin-left:auto;font-size:11px;font-weight:700;color:#F07468}
+.nav button[aria-current=true] .ct{color:var(--bad)}
+.days{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding:16px 12px 0}
+.days .num{font-size:40px;font-weight:800;line-height:1;color:#fff}
+.days p{margin:4px 0 0;font-size:12.5px;color:#9DB7D1}
+.theme{margin-top:14px;background:rgba(255,255,255,.08);border:0;color:#C9DAEC;border-radius:9px;padding:8px 10px;font-size:12.5px;cursor:pointer;width:100%}
+
+.main{min-width:0;padding:0 0 60px}
+.topbar{display:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:36px 44px 34px;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-80px;width:360px;height:360px;border-radius:50%;
+ border:56px solid rgba(123,179,217,.10)}
+.hero .who{font-size:13px;color:var(--sky2);margin:0 0 10px}
+.hero h1{font-size:clamp(28px,3.6vw,42px);line-height:1.08;font-weight:800;margin:0;letter-spacing:-.015em;max-width:18ch}
+.hero .lead{max-width:62ch;color:#CFE1F2;margin:12px 0 0;font-size:15px}
+.tl{position:relative;margin:34px 0 4px;height:84px}
+.tl .rail{position:absolute;left:0;right:0;top:40px;height:6px;border-radius:3px;background:rgba(255,255,255,.14)}
+.tl .done{position:absolute;left:0;top:40px;height:6px;border-radius:3px;background:var(--sky)}
+.tl .mk{position:absolute;top:0;transform:translateX(-50%);text-align:center;font-size:11.5px;color:#BCD3E9;white-space:nowrap}
+.tl .mk b{display:block;color:#fff;font-weight:600;font-size:12px}
+.tl .mk::after{content:"";display:block;width:2px;height:14px;background:rgba(255,255,255,.35);margin:6px auto 0}
+.tl .ev{position:absolute;top:36px;height:14px;border-radius:7px;background:#F0B04A;transform:translateX(0)}
+.tl .ev.x{background:#fff;opacity:.75}
+.tl .today{position:absolute;top:31px;width:24px;height:24px;border-radius:50%;background:#fff;border:6px solid var(--sky);transform:translateX(-50%);box-shadow:0 0 0 6px rgba(123,179,217,.25)}
+.tl .lb{position:absolute;top:62px;transform:translateX(-50%);font-size:11.5px;color:#BCD3E9;white-space:nowrap}
+.tl .lb.r{transform:translateX(-100%)}.tl .lb.l{transform:none}
+.score{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.score span{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:7px 14px;font-size:13px}
+.score i{width:9px;height:9px;border-radius:50%}
+
+/* ---------- content ---------- */
+.content{padding:30px 44px 0;max-width:1180px}
+.page{display:none}.page.on{display:block;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.page.on{animation:none}}
+.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:0 0 18px;flex-wrap:wrap}
+.ph h2{font-size:24px;font-weight:800;margin:0;letter-spacing:-.01em}
+.ph p{margin:4px 0 0;color:var(--ink2);max-width:64ch}
+.panel{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:22px 24px;margin-bottom:18px}
+.panel h3{font-size:16px;font-weight:700;margin:0 0 2px}
+.panel .ps{font-size:13px;color:var(--mut);margin:0 0 16px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cols.w{grid-template-columns:1.35fr 1fr}
+.cols>.panel{margin-bottom:0}
+.cols{margin-bottom:18px}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--okw);color:var(--ok)}.p-mid{background:var(--midw);color:var(--mid)}.p-bad{background:var(--badw);color:var(--bad)}
+
+/* goal tracks (signature) */
+.goals{display:flex;flex-direction:column}
+.goal{display:grid;grid-template-columns:minmax(150px,1fr) 2fr 150px;gap:18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.goal:last-child{border-bottom:0}
+.goal>.pill{justify-self:end}
+.goal .gn{font-weight:600;font-size:14px}
+.goal .ga{font-size:12px;color:var(--mut)}
+.trk{position:relative;height:30px}
+.trk .bg{position:absolute;left:0;right:0;top:12px;height:6px;border-radius:3px;background:var(--line)}
+.trk .fg{position:absolute;left:0;top:12px;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--navy))}
+.trk .now{position:absolute;top:7px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--navy);transform:translateX(-50%)}
+.trk .tg{position:absolute;right:0;top:4px;width:22px;height:22px;border-radius:6px;background:var(--navy);display:grid;place-items:center}
+.trk .tg::after{content:"";width:8px;height:8px;border-radius:2px;background:#fff}
+.trk .v0,.trk .v1{position:absolute;top:-10px;font-size:11.5px;color:var(--ink2);font-weight:600}
+.trk .v1{right:0;color:var(--navy)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .trk .v1{color:var(--sky)}:root:not([data-theme=light]) .trk .tg,:root:not([data-theme=light]) .trk .now{border-color:var(--sky)}}
+:root[data-theme=dark] .trk .v1{color:var(--sky)}
+.goal.bad .fg{background:linear-gradient(90deg,#F2A79F,var(--bad))}.goal.bad .now{border-color:var(--bad)}
+.goal.mid .fg{background:linear-gradient(90deg,#F4D49C,var(--mid))}.goal.mid .now{border-color:var(--mid)}
+
+/* big compare */
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px}
+.cmp .panel{margin:0;display:flex;flex-direction:column;gap:12px}
+.cmp .pill{align-self:flex-start}
+.ft{display:flex;align-items:baseline;gap:12px}
+.ft .a{font-family:var(--disp);font-size:22px;font-weight:700;color:var(--mut);text-decoration:line-through;text-decoration-thickness:1px}
+.ft .b{font-family:var(--disp);font-size:40px;font-weight:800;color:var(--navy);letter-spacing:-.02em;line-height:1}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .ft .b{color:var(--sky)}}
+:root[data-theme=dark] .ft .b{color:var(--sky)}
+.ft .x{font-size:12.5px;color:var(--ink2);font-weight:600}
+.cmp .t{font-size:14px;color:var(--ink2);margin:0}
+
+/* diagnosis list */
+.dg{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.dg:last-child{border-bottom:0}
+.dg .ic{flex:0 0 34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:15px}
+.dg .ic.ok{background:var(--okw);color:var(--ok)}.dg .ic.mid{background:var(--midw);color:var(--mid)}.dg .ic.bad{background:var(--badw);color:var(--bad)}
+.dg b{display:block;font-size:14px}
+.dg span{font-size:13px;color:var(--ink2)}
+
+/* issue blocks */
+.issue{display:grid;grid-template-columns:6px 1fr;gap:0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px}
+.issue .bar{background:var(--mid)}.issue.bad .bar{background:var(--bad)}
+.issue .in{padding:20px 24px}
+.issue h3{font-size:17px;margin:8px 0 6px}
+.issue p{margin:0;color:var(--ink2);max-width:72ch}
+.issue .ev{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.issue .ev div{background:var(--ice);border-radius:10px;padding:8px 12px;font-size:12.5px;color:var(--ink2)}
+.issue .ev b{display:block;font-family:var(--disp);font-size:17px;color:var(--ink)}
+
+.note{background:var(--ice);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--ink2);margin-top:14px}
+.note b{color:var(--ink)}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:12px;color:var(--mut);font-weight:500;padding:0 10px 10px;border-bottom:1px solid var(--line)}
+td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.tbl{overflow-x:auto}
+
+/* legend */
+.lg{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--ink2);margin-bottom:8px}
+.lg i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-2px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+
+/* donut legend */
+.dl{display:flex;flex-direction:column;gap:8px}
+.dl div{display:flex;align-items:center;gap:10px;font-size:13px}
+.dl i{width:12px;height:12px;border-radius:4px;flex:0 0 12px}
+.dl span{color:var(--ink2);flex:1}
+.dl b{font-family:var(--disp)}
+.dwrap{display:grid;grid-template-columns:190px 1fr;gap:22px;align-items:center}
+
+.rc div{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13.5px;color:var(--ink2)}
+.rc div:last-child{border-bottom:0}
+.rc b{font-family:var(--disp);font-size:17px;color:var(--ink)}
+.rc .tot b{color:var(--navy);font-size:22px}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .rc .tot b{color:var(--sky)}}
+:root[data-theme=dark] .rc .tot b{color:var(--sky)}
+
+/* checklist */
+.todo{list-style:none;margin:0;padding:0}
+.todo li{border-bottom:1px solid var(--line)}
+.todo li:last-child{border-bottom:0}
+.todo label{display:flex;gap:14px;align-items:flex-start;padding:14px 0;cursor:pointer}
+.todo input{appearance:none;flex:0 0 22px;height:22px;border-radius:7px;border:2px solid var(--line);margin:1px 0 0;cursor:pointer;display:grid;place-items:center;background:var(--surface)}
+.todo input:checked{background:var(--ok);border-color:var(--ok)}
+.todo input:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.todo input:checked+div b{text-decoration:line-through;color:var(--mut)}
+.todo b{display:block;font-weight:600;font-size:14.5px}
+.todo small{color:var(--mut);font-size:12.5px}
+.prog{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.prog span{display:block;height:100%;background:var(--ok);border-radius:4px;transition:width .3s}
+
+.foot{padding:30px 44px 0;font-size:12px;color:var(--mut)}
+
+/* ---------- responsive ---------- */
+@media(max-width:1080px){.cmp{grid-template-columns:1fr}.cols,.cols.w{grid-template-columns:1fr}}
+@media(max-width:900px){
+ .shell{display:block}
+ .side{position:fixed;left:0;top:0;bottom:0;width:min(280px,84vw);z-index:60;transform:translateX(-100%);transition:transform .25s ease;height:auto}
+ body.open .side{transform:none}
+ .scrim{position:fixed;inset:0;background:rgba(4,20,36,.5);z-index:55;opacity:0;pointer-events:none;transition:opacity .25s}
+ body.open .scrim{opacity:1;pointer-events:auto}
+ .topbar{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:40;background:var(--deep);color:#fff;padding:10px 16px}
+ .burger{width:40px;height:40px;border-radius:10px;border:0;background:rgba(255,255,255,.1);display:grid;place-items:center;cursor:pointer}
+ .burger i,.burger i::before,.burger i::after{display:block;width:18px;height:2px;background:#fff;border-radius:2px;position:relative}
+ .burger i::before,.burger i::after{content:"";position:absolute;left:0}
+ .burger i::before{top:-6px}.burger i::after{top:6px}
+ .topbar .t{font-family:var(--disp);font-weight:700;font-size:14px}
+ .topbar .c{margin-left:auto;font-size:12.5px;color:var(--sky)}
+ .hero{padding:28px 18px 26px}.content{padding:24px 16px 0}.foot{padding:24px 16px 0}
+ .goal{grid-template-columns:1fr;gap:8px}
+ .dwrap{grid-template-columns:1fr;justify-items:center}.dwrap .dl{width:100%}
+ .tl .mk.hm{display:none}
+}
+
+:root[data-theme=dark] .trk .tg{background:var(--sky)}:root[data-theme=dark] .trk .tg::after{background:#08131F}:root[data-theme=dark] .trk .now{border-color:var(--sky)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .trk .tg{background:var(--sky)}:root:not([data-theme=light]) .trk .tg::after{background:#08131F}}
+:root[data-theme=dark] .goal.bad .now{border-color:var(--bad)}:root[data-theme=dark] .goal.mid .now{border-color:var(--mid)}
+.hero h1{max-width:none}
+@media(max-width:900px){.goal>.pill{justify-self:start}.tl .lb.sm{display:none}}
+
+/* ---- extra components ---- */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.tile{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:16px 18px}
+.tile .tl2{font-size:12.5px;color:var(--mut)}
+.tile .tv{font-family:var(--disp);font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-top:4px}
+.tile .tv small{font-size:14px;color:var(--mut);font-weight:600}
+.tile .td{font-size:12.5px;font-weight:600;margin-top:4px}
+.td.ok{color:var(--ok)}.td.mid{color:var(--mid)}.td.bad{color:var(--bad)}.td.mu{color:var(--mut)}
+.tile.focus{background:var(--navy);color:#fff}.tile.focus .tl2{color:var(--sky2)}.tile.focus .tv small{color:var(--sky2)}
+.hstat{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px}
+.hstat div{min-width:120px}
+.hstat b{display:block;font-family:var(--disp);font-size:34px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.hstat span{font-size:12.5px;color:#BCD3E9}
+.hstat .warn b{color:#F6B9B2}
+.pace{margin-top:24px;max-width:620px}
+.pace .row{display:grid;grid-template-columns:150px 1fr 48px;gap:12px;align-items:center;font-size:12.5px;color:#CFE1F2;margin-bottom:8px}
+.pace .bar{height:10px;border-radius:5px;background:rgba(255,255,255,.14);overflow:hidden}
+.pace .bar span{display:block;height:100%;border-radius:5px}
+.pace b{color:#fff;text-align:right}
+.hrow{display:grid;grid-template-columns:minmax(120px,190px) 1fr 70px;gap:12px;align-items:center;margin-bottom:9px;font-size:13px}
+.hrow .hn{color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hrow .ht{height:12px;background:var(--line);border-radius:6px;overflow:hidden}
+.hrow .hf{height:100%;border-radius:6px;background:var(--navy)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .hrow .hf{background:var(--sky)}}
+:root[data-theme=dark] .hrow .hf{background:var(--sky)}
+.hrow .hv{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.hrow .hv small{display:block;font-size:11px;color:var(--mut);font-weight:500}
+.kan{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px}
+.kcol{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:18px 18px 8px}
+.kcol h3{display:flex;align-items:center;gap:10px;font-size:15px;margin:0 0 12px}
+.kcol h3 .n{margin-left:auto;font-family:var(--disp);font-size:20px}
+.kcard{border-top:1px solid var(--line);padding:11px 0}
+.kcard b{display:block;font-size:13.5px;font-weight:600}
+.kcard span{font-size:12.5px;color:var(--mut)}
+.qa{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.qa:last-child{border-bottom:0}
+.qa .k{flex:0 0 auto}
+.qa p{margin:0;font-size:13.5px;color:var(--ink2)}
+.qa p b{color:var(--ink)}
+.cal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cal .d{background:var(--ice);border-radius:14px;padding:14px 16px}
+.cal .d .dd{font-family:var(--disp);font-size:26px;font-weight:800;line-height:1}
+.cal .d .dm{font-size:12px;color:var(--mut);margin-bottom:10px}
+.cal .d b{display:block;font-size:14px}
+.cal .d span{font-size:12.5px;color:var(--ink2)}
+.ins{list-style:none;margin:0;padding:0}
+.ins li{position:relative;padding:8px 0 8px 22px;font-size:13.5px;color:var(--ink2);border-bottom:1px dashed var(--line)}
+.ins li:last-child{border-bottom:0}
+.ins li::before{content:"";position:absolute;left:4px;top:15px;width:8px;height:8px;border-radius:50%;background:var(--sky)}
+.ins li b{color:var(--ink)}
+.act{display:flex;gap:10px;align-items:center;background:var(--ice);border-radius:12px;padding:11px 14px;font-size:13px;color:var(--ink2);margin-top:12px}
+.act b{color:var(--ink)}
+@media(max-width:1080px){.tiles{grid-template-columns:repeat(2,1fr)}.kan{grid-template-columns:1fr}}
+@media(max-width:900px){.hstat{gap:18px}.hstat b{font-size:28px}.pace .row{grid-template-columns:110px 1fr 42px}.cal{grid-template-columns:1fr}.hrow{grid-template-columns:110px 1fr 60px}}
+
+[hidden]{display:none!important}
+.pbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:14px 44px;background:var(--surface);border-bottom:1px solid var(--line)}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:none;padding:8px 14px;border-radius:9px;font:600 13px var(--disp);color:var(--ink2);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--navy);color:#fff}
+.prow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.msel{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut);font-weight:600}
+.msel select{font:600 13.5px var(--disp);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 30px 8px 12px}
+.pw{display:flex;flex-wrap:wrap;gap:8px}
+.wb{display:flex;flex-direction:column;align-items:flex-start;gap:1px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:7px 12px;cursor:pointer;color:var(--ink);text-align:left;min-width:92px}
+.wb b{font-family:var(--disp);font-size:14px}.wb span{font-size:11.5px;color:var(--mut)}
+.wb .tag{font-style:normal;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;margin-top:4px}
+.wb .tag.rep{background:var(--okw);color:var(--ok)}.wb .tag.met{background:var(--ice);color:var(--ink2)}
+.wb:hover{border-color:var(--sky)}
+.wb.mes{border-style:dashed}
+.wb[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}.wb[aria-pressed=true] span{color:var(--sky2)}
+.wb[aria-pressed=true] .tag{background:rgba(255,255,255,.15);color:#fff}
+.pcust label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink2);font-weight:600}
+.pcust input{font:inherit;font-size:14px;padding:7px 9px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.pcust .go{border:0;background:var(--navy);color:#fff;border-radius:9px;padding:9px 14px;font-weight:600;cursor:pointer;align-self:flex-end}
+.pcust .pm{font-size:12.5px;color:var(--bad);font-weight:600}
+@media(max-width:900px){.pbar{padding:12px 16px}}
+small.usd{font-size:.72em;font-weight:600;color:var(--mu,#6b7a90);margin-left:2px;white-space:nowrap}.tv small.usd{display:block;font-size:.42em;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="scrim" id="scrim"></div>
+<div class="topbar"><button class="burger" id="burger" aria-label="Abrir secciones" aria-expanded="false"><i></i></button><span class="t">Reporte semana 3</span><span class="c" id="cur"></span></div>
+<div class="shell">
+ <aside class="side" id="side">
+  <span class="logo"><img src="data:image/jpeg;base64,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" alt="Patagonia Soluciones Digitales"></span>
+  <nav class="nav" id="nav" aria-label="Secciones"><button data-p="resumen"><span class="sd "></span>Resumen</button><div class="grp-l">Ecommerce</div><button data-p="trafico"><span class="sd ok"></span>Tráfico</button><button data-p="funnel"><span class="sd bad"></span>Funnel de compra</button><button data-p="productos"><span class="sd mid"></span>Productos y páginas</button><button data-p="audiencia"><span class="sd "></span>Audiencia</button><button data-p="mejoras"><span class="sd ok"></span>Mejoras en la tienda</button><div class="grp-l">Redes y pauta</div><button data-p="redes"><span class="sd ok"></span>Instagram</button><button data-p="meta"><span class="sd mid"></span>Meta Ads</button><button data-p="google"><span class="sd mid"></span>Google Ads</button><button data-p="presupuesto"><span class="sd mid"></span>Presupuesto</button><div class="grp-l">Seguimiento</div><button data-p="pendientes"><span class="sd bad"></span>Avances y pendientes<span class="ct">5</span></button></nav>
+  <div class="days"><div id="daysBox"><div class="num">6</div><p>días quedan de octubre. Quedan <b style="color:#fff">$477.815</b> de pauta.</p></div>
+   <a class="theme" href="index.html" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box">← Ver objetivos</a>
+   <button class="theme" onclick="toggleTheme()">Cambiar tema claro / oscuro</button></div>
+ </aside>
+ <div class="main">
+  <div class="pbar" role="group" aria-label="Período del reporte">
+   <div class="seg"><button type="button" id="tabW" aria-pressed="true">Por semana</button><button type="button" id="tabC" aria-pressed="false">Personalizado</button></div>
+   <div class="prow" id="pweek"><label class="msel"><span>Mes</span><select id="pmes"><option value="10">Octubre 2026</option><option value="11">Noviembre 2026</option></select></label><div class="pw" id="pwk"></div></div>
+   <div class="prow pcust" id="pcust" hidden><label>Desde<input type="date" id="pa" min="2026-10-01" max="2026-11-07" value="2026-11-01"></label><label>Hasta<input type="date" id="pb" min="2026-10-01" max="2026-11-07" value="2026-11-07"></label><button type="button" class="go" id="papply">Ver métricas</button><span class="pm" id="pmsg" role="status"></span></div></div>
+  <div class="wk" id="wk-s4">
+  <section class="hero">
+ <p class="who">Reporte semanal de performance digital · Tienda Newsan Chile</p>
+ <h1>Semana del 19 al 25 de octubre</h1>
+ <p class="lead">El tráfico se sostiene y la tienda ya muestra precio tachado, cuotas y envíos. Todavía no hay compras: la prioridad de la semana 1 de noviembre es medir bien la compra y mejorar la experiencia mobile.</p>
+ <div class="hstat">
+  <div><b>1.166</b><span>sesiones en la semana</span></div>
+  <div><b>19</b><span>carritos</span></div>
+  <div class="warn"><b>0</b><span>compras</span></div>
+  <div><b>3.754</b><span>seguidores en Instagram</span></div>
+ </div>
+ <div class="pace">
+  <div class="row"><span>Mes transcurrido</span><div class="bar"><span style="width:81%;background:#fff;opacity:.7"></span></div><b>81%</b></div>
+  <div class="row"><span>Presupuesto usado</span><div class="bar"><span style="width:56%;background:var(--sky)"></span></div><b>56%</b></div>
+ </div>
+</section>
+  <div class="content">
+<!-- RESUMEN -->
+<section class="page" id="resumen" data-t="Resumen">
+ <div class="ph"><div><h2>Lo más importante de la semana</h2><p>Cifras de GA4, Meta Ads e Instagram al 25 de octubre.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Sesiones, 18 al 25/10</div><div class="tv">1.166</div><div class="td" style="color:var(--sky2)">95 a 140 por día desde el 21/10</div></div>
+  <div class="tile"><div class="tl2">Ven un producto</div><div class="tv">24,1%</div><div class="td mu">248 de 1.028 usuarios</div></div>
+  <div class="tile"><div class="tl2">Agregan al carrito</div><div class="tv">19</div><div class="td mid">5 inician la compra</div></div>
+  <div class="tile"><div class="tl2">Compras</div><div class="tv">0</div><div class="td bad">Trackeo en revisión</div></div>
+ </div>
+ <div class="cols">
+  <div class="panel"><h3>Lo que salió bien</h3><p class="ps">Avances visibles en la tienda y en redes.</p>
+   <div class="dg"><div class="ic ok">✓</div><div><b>La tienda ya muestra precio tachado, cuotas y envíos</b><span>Además, la home suma un carrusel de compra por categoría.</span></div></div>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Instagram superó el objetivo de octubre</b><span>3.754 seguidores (116%) y 130 mil visualizaciones (235%).</span></div></div>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Merchant Center volvió a funcionar</b><span>El feed de productos está activo otra vez.</span></div></div>
+  </div>
+  <div class="panel"><h3>Lo que hay que resolver</h3><p class="ps">Para que el tráfico se convierta en ventas.</p>
+   <div class="dg"><div class="ic bad">!</div><div><b>No se registran compras</b><span>Google cuenta carritos como conversión. Solución: semana 1 de noviembre.</span></div></div>
+   <div class="dg"><div class="ic mid">↓</div><div><b>Mobile convierte la mitad que desktop</b><span>6% contra 13% de paso a carrito, con el 85% del tráfico en celular.</span></div></div>
+   <div class="dg"><div class="ic mid">$</div><div><b>Remarketing gasta y no vende</b><span>$140 por clic y 0 compras: proponemos pasar esa inversión a Tráfico.</span></div></div>
+  </div>
+ </div>
+</section>
+
+<!-- TRAFICO -->
+<section class="page" id="trafico" data-t="Tráfico">
+ <div class="ph"><div><h2>Evolutivo de tráfico</h2><p>18 al 25 de octubre, GA4. Instagram pago trae casi la mitad de las visitas, pero son las más cortas.</p></div></div>
+ <div class="panel"><h3>Sesiones por día</h3><p class="ps">Pico el 20/10. Valores aproximados leídos del gráfico de GA4; el total de la semana es exacto.</p>
+  <svg id="daily" viewBox="0 0 820 230" role="img" aria-label="Sesiones por día del 18 al 25 de octubre"></svg></div>
+ <div class="cols w">
+  <div class="panel"><h3>De dónde vienen las visitas</h3><p class="ps">Sesiones por fuente y tiempo promedio de interacción.</p><div id="sources"></div></div>
+  <div class="panel"><h3>Qué leemos</h3><p class="ps">Volumen no es lo mismo que calidad.</p>
+   <ul class="ins">
+    <li><b>Instagram pago</b> es la primera fuente: 508 sesiones (44%), con solo 23 s de interacción.</li>
+    <li><b>Google pago</b> aporta 272 (23%) con 56 s: tráfico más calificado.</li>
+    <li><b>Google orgánico</b> (59) e <b>Itaú beneficios</b> (35, 1 min 42 s) traen visitas de calidad.</li>
+    <li>En total, 57,9% de las sesiones tienen interacción y duran 39 s en promedio.</li>
+   </ul></div>
+ </div>
+</section>
+
+<!-- FUNNEL -->
+<section class="page" id="funnel" data-t="Funnel de compra">
+ <div class="ph"><div><h2>Funnel de conversión</h2><p>De 1.028 usuarios, 5 llegaron a iniciar la compra y ninguno la terminó.</p></div></div>
+ <div class="cols w">
+  <div class="panel"><h3>Paso a paso</h3><p class="ps">Usuarios únicos, 18 al 25 de octubre.</p><svg id="fun" viewBox="0 0 440 300" role="img" aria-label="Funnel: 1028, 248, 19, 5, 0"></svg></div>
+  <div class="panel"><h3>Mobile contra desktop</h3><p class="ps">El 85% navega en celular, pero desktop convierte el doble a carrito.</p>
+   <div class="tbl"><table><thead><tr><th></th><th>Mobile</th><th>Desktop</th></tr></thead><tbody>
+    <tr><td>Inicio de sesión</td><td><b>877</b></td><td><b>139</b></td></tr>
+    <tr><td>Ven producto</td><td>191</td><td>54</td></tr>
+    <tr><td>Agregan al carrito</td><td>12</td><td>7</td></tr>
+    <tr><td>Paso a carrito</td><td><span class="pill p-bad">6%</span></td><td><span class="pill p-ok">13%</span></td></tr>
+    <tr><td>Inician compra</td><td>2</td><td>3</td></tr>
+    <tr><td>Compran</td><td>0</td><td>0</td></tr>
+   </tbody></table></div>
+   <div class="act"><span class="pill p-mid">Accionable</span><span>Incorporar <b>Microsoft Clarity</b> para ver dónde se traban los usuarios en mobile.</span></div>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="page" id="productos" data-t="Productos y páginas">
+ <div class="ph"><div><h2>Productos y páginas más vistas</h2><p>Por dónde entra la gente y qué recorre dentro de la tienda.</p></div></div>
+ <div class="cols">
+  <div class="panel"><h3>Fichas por donde más se entra</h3><p class="ps">18 al 25/10 · 141 sesiones entraron directo a una ficha (12% del total).</p><div id="landing"></div>
+   <div class="note">El robot de cocina y el lavavajillas traen más entradas, pero la gente se queda 10 a 11 s. El aire Noblex retiene más: <b>1 min 12 s</b>, por temporada.</div></div>
+  <div class="panel"><h3>Páginas más vistas</h3><p class="ps">28/9 al 25/10 · 6.944 vistas en total.</p><div id="pages"></div>
+   <div class="note">La home concentra el <b>43% de las vistas</b>. El buscador se usa mucho: 2,1 veces por usuario.</div></div>
+ </div>
+ <div class="act"><span class="pill p-mid">Accionable</span><span>Sumar <b>Predicta</b> en la sección "Marcas" de la home: su lavavajillas está entre las fichas más vistas.</span></div>
+</section>
+
+<!-- AUDIENCIA -->
+<section class="page" id="audiencia" data-t="Audiencia">
+ <div class="ph"><div><h2>Audiencia</h2><p>Mismo perfil que la semana pasada: mujeres de 55 a 64 años, en Santiago.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Región Metropolitana</div><div class="tv">79%</div><div class="td" style="color:var(--sky2)">de los usuarios</div></div>
+  <div class="tile"><div class="tl2">Mujeres</div><div class="tv">68%</div><div class="td mu">32% hombres</div></div>
+  <div class="tile"><div class="tl2">Rango con más usuarios</div><div class="tv">55–64</div><div class="td mu">años</div></div>
+  <div class="tile"><div class="tl2">Navegan en celular</div><div class="tv">85%</div><div class="td mid">la experiencia mobile manda</div></div>
+ </div>
+ <div class="cols">
+  <div class="panel"><h3>Usuarios por edad</h3><p class="ps">Valores aproximados leídos del gráfico de GA4.</p><div id="ages"></div></div>
+  <div class="panel"><h3>Usuarios por región</h3><p class="ps">Usuarios activos, principales regiones.</p><div id="regions"></div></div>
+ </div>
+</section>
+
+<!-- MEJORAS -->
+<section class="page" id="mejoras" data-t="Mejoras en la tienda">
+ <div class="ph"><div><h2>Mejoras en la tienda</h2><p>Cuatro listas y tres en marcha para la semana 1 y 2 de noviembre.</p></div></div>
+ <div class="panel">
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Precio tachado</b> en las tarjetas de la home y en la ficha. Ejemplo: lavavajillas Serie 2 de $999.990 a $699.990 (−30%).</p></div>
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Cuotas en la ficha:</b> muestra "Hasta 3 cuotas sin interés" con el valor de cada cuota.</p></div>
+  <div class="qa"><span class="k pill p-ok">Hecho 20/10</span><p><b>Envíos:</b> tarifario cargado en Bsale y envío gratis en Región Metropolitana sobre $200.000.</p></div>
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Carruseles en la home:</b> "Compra por categoría", con 7 pestañas y precio tachado.</p></div>
+  <div class="qa"><span class="k pill p-mid">Semana 1 nov</span><p><b>Paid media:</b> se recortó 43% el presupuesto hasta revisar el trackeo y se diversificó el material de los anuncios.</p></div>
+  <div class="qa"><span class="k pill p-mid">Semana 1 nov</span><p><b>Home mobile:</b> seguimos la auditoría de home, categoría, ficha y checkout.</p></div>
+  <div class="qa"><span class="k pill p-mid">Semana 2 nov</span><p><b>Nuevo plan de paid media:</b> se presenta en la semana 1 y se implementa en la semana 2.</p></div>
+ </div>
+</section>
+
+<!-- REDES -->
+<section class="page" id="redes" data-t="Instagram">
+ <div class="ph"><div><h2>Instagram</h2><p>1 al 25 de octubre. Seguidores y alcance ya superan el objetivo del mes; el engagement queda abajo.</p></div></div>
+ <div class="panel"><h3>Objetivos de octubre contra resultado al 25/10</h3><p class="ps">La barra llena es el objetivo del mes.</p><div class="goals" id="igGoals"></div>
+  <div class="note">El <b>81% de las visualizaciones viene de anuncios</b>: por eso el alcance sube y la tasa de engagement baja. Faltan 170 interacciones para cerrar el objetivo.</div></div>
+ <div class="tiles">
+  <div class="tile"><div class="tl2">Visualizaciones</div><div class="tv">131,9 mil</div><div class="td ok">+166%</div></div>
+  <div class="tile"><div class="tl2">Seguidores nuevos</div><div class="tv">813</div><div class="td ok">+97%</div></div>
+  <div class="tile"><div class="tl2">Clics en el enlace</div><div class="tv">4,6 mil</div><div class="td ok">+244%</div></div>
+  <div class="tile"><div class="tl2">Visitas al perfil</div><div class="tv">4,3 mil</div><div class="td ok">+106%</div></div>
+ </div>
+ <div class="cols w">
+  <div class="panel"><h3>Contenidos más vistos</h3><p class="ps">30 historias y 14 publicaciones en el mes, +18,9% contra septiembre.</p><div id="topPosts"></div>
+   <div class="note">La Semana de descuentos concentra las publicaciones más vistas, y el evento del 19/10 ya es el tercero del mes.</div></div>
+  <div class="panel"><h3>Foco del 26 al 30 de octubre</h3><p class="ps">Contenidos planificados.</p>
+   <div class="cal" style="grid-template-columns:1fr">
+    <div class="d"><div class="dd">26</div><div class="dm">octubre · reel</div><b>Lavavajillas</b><span>SKU SCX6ITB00E</span></div>
+    <div class="d"><div class="dd">29</div><div class="dm">octubre · carrusel</div><b>Horno Serie 4</b><span>SKU HBA514ES3</span></div>
+    <div class="d"><div class="dd">30</div><div class="dm">octubre · historia</div><b>Catálogo</b><span>Todos los productos</span></div>
+   </div></div>
+ </div>
+ <div class="panel"><h3>Próximas semanas</h3><p class="ps">Acciones a partir de los resultados.</p>
+  <div class="qa"><span class="k pill p-mid">Engagement</span><p><b>Contenido participativo:</b> repetir dinámicas tipo sorteo o encuesta para subir la tasa.</p></div>
+  <div class="qa"><span class="k pill p-ok">Producto</span><p><b>Potenciar reels de producto:</b> lavavajillas y horno Serie 4, ya en el calendario.</p></div>
+  <div class="qa"><span class="k pill p-ok">Tráfico</span><p><b>Impulsar el enlace:</b> llamados a la acción que lleven a la categoría o la ficha.</p></div>
+  <div class="qa"><span class="k pill p-mid">Pauta</span><p><b>Nueva estructura de pauta</b> organizada por fechas comerciales.</p></div>
+ </div>
+</section>
+
+<!-- META -->
+<section class="page" id="meta" data-t="Meta Ads">
+ <div class="ph"><div><h2>Meta Ads</h2><p>Acumulado del 1 al 25 de octubre, en CLP. Tráfico es la campaña más eficiente; Remarketing no vende.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Invertido</div><div class="tv">$198.348</div><div class="td" style="color:var(--sky2)">33% de la pauta del mes</div></div>
+  <div class="tile"><div class="tl2">Clics</div><div class="tv">4.819</div><div class="td mu">$41 cada uno</div></div>
+  <div class="tile"><div class="tl2">Seguidores de Instagram</div><div class="tv">597</div><div class="td ok">desde Engagement</div></div>
+  <div class="tile"><div class="tl2">Compras</div><div class="tv">0</div><div class="td bad">Remarketing sin ventas</div></div>
+ </div>
+ <div class="cols w">
+  <div class="panel"><h3>Costo por clic por campaña</h3><p class="ps">Inversión acumulada y resultado de cada una.</p><svg id="cpcMeta" viewBox="0 0 520 210" role="img" aria-label="Costo por clic por campaña"></svg>
+   <div class="tbl" style="margin-top:12px"><table><thead><tr><th>Campaña</th><th>Inversión</th><th>Clics</th><th>Resultado</th></tr></thead><tbody>
+    <tr><td><b>Engagement</b> · posteos</td><td>$132.124</td><td>3.427</td><td>597 seguidores</td></tr>
+    <tr><td><b>Tráfico</b> · consideración</td><td>$24.469</td><td>1.093</td><td>10.474 interacciones</td></tr>
+    <tr><td><b>Remarketing</b> · ventas</td><td>$41.755</td><td>299</td><td><span class="pill p-bad">0 compras</span></td></tr>
+   </tbody></table></div></div>
+  <div class="panel"><h3>Cambios de la última semana</h3><p class="ps">19 al 25 de octubre.</p>
+   <div class="dg"><div class="ic mid">↓</div><div><b>Bajamos el presupuesto 43%</b><span>Meta y Google desde el 19/10, hasta revisar el trackeo. Engagement baja su gasto diario a la mitad desde el 22/10.</span></div></div>
+   <div class="dg"><div class="ic ok">+</div><div><b>Sumamos anuncios por categoría</b><span>Aire acondicionado, lavavajillas, horno eléctrico Atma y catálogo.</span></div></div>
+   <h3 style="margin-top:14px">Mejores creatividades</h3><p class="ps">Por seguidores ganados.</p><div id="creas"></div>
+   <div class="act"><span class="pill p-mid">Propuesta</span><span>Pasar la inversión de <b>Remarketing a Tráfico</b> en el nuevo plan de paid.</span></div></div>
+ </div>
+</section>
+
+<!-- GOOGLE -->
+<section class="page" id="google" data-t="Google Ads">
+ <div class="ph"><div><h2>Google Ads</h2><p>Con menos inversión el CPC subió y los carritos bajaron. Las conversiones registradas son carritos, no compras.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Inversión semana 3</div><div class="tv">$117.614</div><div class="td" style="color:var(--sky2)">−38% contra semana 2</div></div>
+  <div class="tile"><div class="tl2">Clics</div><div class="tv">222</div><div class="td bad">CPC $530, +75%</div></div>
+  <div class="tile"><div class="tl2">Carritos</div><div class="tv">8</div><div class="td mid">$14.702 cada uno</div></div>
+  <div class="tile"><div class="tl2">Mejor campaña del mes</div><div class="tv">$9.974</div><div class="td ok">por carrito en PMax Categorías</div></div>
+ </div>
+ <div class="cols w">
+  <div class="panel"><h3>Semana a semana</h3><p class="ps">Inversión en barras, CPC en la línea.</p>
+   <div class="lg"><span><i style="background:var(--sky)"></i>Inversión</span><span><i style="background:var(--navy)"></i>CPC</span></div>
+   <svg id="gw" viewBox="0 0 520 240" role="img" aria-label="Inversión y CPC de Google por semana"></svg></div>
+  <div class="panel"><h3>Detalle por semana</h3><p class="ps">S1 = 5 al 11 · S2 = 12 al 18 · S3 = 19 al 25 de octubre.</p>
+   <div class="tbl"><table><thead><tr><th></th><th>S1</th><th>S2</th><th>S3</th><th>Acum.</th></tr></thead><tbody>
+    <tr><td>Inversión</td><td>$92.930</td><td>$191.210</td><td>$117.614</td><td><b>$401.754</b></td></tr>
+    <tr><td>Clics</td><td>74</td><td>633</td><td>222</td><td><b>929</b></td></tr>
+    <tr><td>CPC</td><td>$1.256</td><td>$302</td><td>$530</td><td><b>$432</b></td></tr>
+    <tr><td>Carritos</td><td>7</td><td>15</td><td>8</td><td><b>30</b></td></tr>
+    <tr><td>Costo por carrito</td><td>$13.276</td><td>$12.747</td><td>$14.702</td><td><b>$13.392</b></td></tr>
+   </tbody></table></div>
+   <div class="act"><span class="pill p-ok">Resuelto</span><span><b>Merchant Center:</b> se cargó la documentación y se levantó el feed de productos.</span></div></div>
+ </div>
+ <div class="issue"><div class="bar"></div><div class="in"><span class="pill p-mid">Próximo paso · semana 1 de noviembre</span>
+  <h3>Revisar el trackeo del evento de compra</h3>
+  <p>Hoy Google cuenta como conversión el carrito. Con el evento de compra bien medido vamos a poder reportar ventas reales y ROAS. En el mes, PMax Categorías trae 16 carritos a $9.974 y Search Brand 14 a $16.030.</p></div></div>
+</section>
+
+<!-- PRESUPUESTO -->
+<section class="page" id="presupuesto" data-t="Presupuesto">
+ <div class="ph"><div><h2>Inversión actualizada</h2><p>Con el recorte se consumió el 56% del presupuesto cuando ya pasó el 81% del mes.</p></div></div>
+ <div class="cols">
+  <div class="panel"><h3>Consumo de octubre</h3><p class="ps">USD 1.100 · TC $985 · CLP 1.083.500.</p>
+   <div class="dwrap"><svg id="bud" viewBox="0 0 200 200" role="img" aria-label="Presupuesto consumido 56%"></svg><div class="dl" id="budLeg"></div></div></div>
+  <div class="panel"><h3>Reparto del consumo</h3><p class="ps">Plan 70% Google y 30% Meta.</p>
+   <div class="rc">
+    <div><span>Google</span><b>$407.337 · 67%</b></div>
+    <div><span>Meta</span><b>$198.348 · 33%</b></div>
+    <div><span>Total consumido al 25/10</span><b>$605.685</b></div>
+    <div class="tot"><span>Remanente para 6 días</span><b>$477.815</b></div>
+   </div></div>
+ </div>
+ <div class="issue"><div class="bar"></div><div class="in"><span class="pill p-mid">A definir con Newsan</span>
+  <h3>¿Aceleramos la inversión o la guardamos para noviembre?</h3>
+  <p>Quedan $477.815 para los últimos 6 días de octubre. Con 11/11 y Black Friday por delante, reservarlo para noviembre permite pautar más fuerte en las fechas que venden.</p></div></div>
+</section>
+
+<!-- PENDIENTES -->
+<section class="page" id="pendientes" data-t="Avances y pendientes">
+ <div class="ph"><div><h2>Avances y pendientes</h2><p>Estado al 26 de octubre. Cinco cosas dependen de Newsan para avanzar con las campañas de noviembre.</p></div></div>
+ <div class="kan">
+  <div class="kcol"><h3><span class="pill p-ok">Resueltos</span><span class="n">5</span></h3>
+   <div class="kcard"><b>Carruseles y precio tachado en la home</b><span>Con Bsale</span></div>
+   <div class="kcard"><b>Cuotas visibles en la ficha</b><span>Hasta 3 sin interés</span></div>
+   <div class="kcard"><b>Tarifario de envíos en Bsale</b><span>20/10</span></div>
+   <div class="kcard"><b>Merchant Center desbloqueado</b><span>Feed de productos activo</span></div>
+   <div class="kcard"><b>Anuncios por categoría</b><span>Meta Ads</span></div></div>
+  <div class="kcol"><h3><span class="pill p-mid">En proceso · Patagonia</span><span class="n">9</span></h3>
+   <div class="kcard"><b>Trackeo del evento de compra</b><span>Semana 1 de noviembre</span></div>
+   <div class="kcard"><b>Plan de Black Friday</b><span>Anuncios por categoría en línea: semana 2 nov</span></div>
+   <div class="kcard"><b>Look de categoría para campañas</b><span>Semana 1 de noviembre</span></div>
+   <div class="kcard"><b>Partner para grabar contenido</b><span>Semana 2 de noviembre</span></div>
+   <div class="kcard"><b>Plan de influencers</b><span>Semana 2 de noviembre</span></div>
+   <div class="kcard"><b>Landing Club Beneficios</b><span>Semana 2 de noviembre</span></div>
+   <div class="kcard"><b>Contenido de noviembre</b><span>Falta el listado de productos en promoción</span></div>
+   <div class="kcard"><b>Plantillas de mensajes para redes</b><span>No dejar teléfonos en comentarios</span></div>
+   <div class="kcard"><b>Nuevo plan de paid media</b><span>Implementación: semana 2 de noviembre</span></div></div>
+  <div class="kcol"><h3><span class="pill p-bad">Pendiente de Newsan</span><span class="n">5</span></h3>
+   <div class="kcard"><b>Productos a promocionar</b><span>11.11: 10 SKU de pequeños electro · Black Friday: 5 por categoría</span></div>
+   <div class="kcard"><b>Cuotas para las campañas</b><span>Habilitarlas con los bancos</span></div>
+   <div class="kcard"><b>Descuentos de noviembre</b><span>Para 11.11 y Black Friday</span></div>
+   <div class="kcard"><b>Dominio de Newsan Chile</b><span>Quién lo compró, en qué plataforma y con qué accesos. Necesario para email.</span></div>
+   <div class="kcard"><b>WhatsApp para conectar en Bsale</b><span>Definir el número</span></div></div>
+ </div>
+</section>
+</div>
+  <p class="foot">Patagonia Soluciones Digitales · Reporte semanal Newsan Chile, semana 3 de octubre 2026. Fuentes: GA4, Meta Ads, Google Ads e Instagram. Montos en CLP.</p>
+  </div>
+<div class="wk" id="wk-s5" hidden>
+<section class="hero">
+ <p class="who">Reporte semanal de performance digital · Tienda Newsan Chile</p>
+ <h1>Semana del 25 de octubre al 1 de noviembre</h1>
+ <p class="lead">Se registró la primera compra: $419.990, desde desktop. Con menos pauta el tráfico bajó 17%, pero las visitas interactuaron más.</p>
+ <div class="hstat">
+  <div><b>965</b><span>sesiones en la semana</span></div>
+  <div><b>8</b><span>carritos</span></div>
+  <div><b>1</b><span>compra · $419.990</span></div>
+  <div><b>3.958</b><span>seguidores en Instagram al 31/10</span></div>
+ </div>
+ <div class="pace">
+  <div class="row"><span>Octubre transcurrido</span><div class="bar"><span style="width:100%;background:#fff;opacity:.7"></span></div><b>100%</b></div>
+  <div class="row"><span>Presupuesto usado</span><div class="bar"><span style="width:59%;background:var(--sky)"></span></div><b>59%</b></div>
+ </div>
+</section>
+<div class="content">
+<!-- RESUMEN -->
+<section class="page" id="resumen5" data-t="Resumen">
+ <div class="ph"><div><h2>Lo más importante de la semana</h2><p>Cifras de GA4 del 25 de octubre al 1 de noviembre e Instagram al 31 de octubre.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Sesiones, 25/10 al 1/11</div><div class="tv">965</div><div class="td" style="color:var(--sky2)">entre 78 y 165 por día</div></div>
+  <div class="tile"><div class="tl2">Ven un producto</div><div class="tv">27,6%</div><div class="td mu">225 de 814 usuarios</div></div>
+  <div class="tile"><div class="tl2">Agregan al carrito</div><div class="tv">8</div><div class="td mid">5 inician la compra</div></div>
+  <div class="tile"><div class="tl2">Compras</div><div class="tv">1</div><div class="td ok">$419.990 en ventas</div></div>
+ </div>
+ <div class="cols">
+  <div class="panel"><h3>Lo que salió bien</h3><p class="ps">La tienda ya vende y lo podemos medir.</p>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Se registró la primera venta</b><span>Un lavavajillas Predicta de $419.990.</span></div></div>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Instagram cerró octubre sobre el objetivo</b><span>3.958 seguidores (122%), 158 mil visualizaciones (286%) e interacciones al 109%.</span></div></div>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Visitas de mejor calidad</b><span>59,3% de las sesiones con interacción (antes 57,9%). Google pago llega a 1 min 10 s.</span></div></div>
+  </div>
+  <div class="panel"><h3>Lo que hay que resolver</h3><p class="ps">Para que el tráfico se convierta en más ventas.</p>
+   <div class="dg"><div class="ic mid">↓</div><div><b>Menos carritos</b><span>8 contra 19 la semana anterior: solo 3,6% de quienes ven un producto lo agrega.</span></div></div>
+   <div class="dg"><div class="ic bad">!</div><div><b>Mobile casi no convierte</b><span>2 carritos de 172 que vieron un producto en celular (1%), contra 6 de 51 en desktop (12%).</span></div></div>
+   <div class="dg"><div class="ic mid">$</div><div><b>Compra en Google Ads y Meta: en proceso de resolución</b><span>Ticket abierto en Bsale. Mientras tanto, la información se toma desde Analytics.</span></div></div>
+  </div>
+ </div>
+ <div class="panel"><h3>Qué nos dice esta semana</h3><p class="ps">La lectura de las métricas para decidir los próximos pasos.</p>
+  <div class="dg"><div class="ic ok">1</div><div><b>La tienda ya vende y lo podemos medir</b><span>Con el registro de compra funcionando pasamos de medir visitas a medir ventas. La primera venta fue un lavavajillas Predicta de $419.990, que llegó por Google orgánico (Shopping) y se cerró en desktop.</span></div></div>
+  <div class="dg"><div class="ic ok">2</div><div><b>Menos pauta no significó menos interés</b><span>La inversión en Meta bajó 33% y las sesiones solo 17%. Además, la interacción subió a 59%: la pauta que quedó trae visitas más calificadas.</span></div></div>
+  <div class="dg"><div class="ic mid">3</div><div><b>El freno está entre ver el producto y agregarlo al carrito</b><span>Más gente ve productos (27,6%, contra 24,1% la semana anterior), pero solo 3,6% los agrega al carrito, y en celular apenas 1%. Mejorar la ficha y el paso a carrito en mobile es lo que más ventas puede destrabar.</span></div></div>
+  <div class="dg"><div class="ic mid">4</div><div><b>Google trae la compra; Instagram trae el alcance</b><span>Google suma las visitas más largas (más de 1 minuto) y la venta. Instagram trae la mitad del tráfico y cerró octubre sobre el objetivo, pero con visitas de 24 s.</span></div></div>
+ </div>
+</section>
+
+<!-- TRAFICO -->
+<section class="page" id="trafico5" data-t="Tráfico">
+ <div class="ph"><div><h2>Evolutivo de tráfico</h2><p>25 de octubre al 1 de noviembre, GA4. Instagram pago trae la mitad de las visitas; Google trae las más largas.</p></div></div>
+ <div class="panel"><h3>Sesiones por día</h3><p class="ps">Pico el 26/10 (165) y piso el 31/10 (78). Valores diarios de GA4.</p>
+  <svg id="daily5" viewBox="0 0 820 230" role="img" aria-label="Sesiones por día del 25 de octubre al 1 de noviembre"></svg></div>
+ <div class="cols w">
+  <div class="panel"><h3>De dónde vienen las visitas</h3><p class="ps">Sesiones por fuente y tiempo promedio de interacción.</p><div id="sources5"></div></div>
+  <div class="panel"><h3>Qué leemos</h3><p class="ps">Volumen no es lo mismo que calidad.</p>
+   <ul class="ins">
+    <li><b>Instagram pago</b> es la primera fuente: 481 sesiones (50%), con 24 s de interacción.</li>
+    <li><b>Google pago</b> aporta 227 (24%) y es el tráfico más calificado: 1 min 10 s.</li>
+    <li><b>Google orgánico</b> suma 70 sesiones con 1 min 05 s de interacción: visitas de calidad sin inversión.</li>
+    <li>En total, 965 sesiones (−17% contra la semana anterior), 59,3% con interacción y 42 s en promedio.</li>
+   </ul></div>
+ </div>
+</section>
+
+<!-- FUNNEL -->
+<section class="page" id="funnel5" data-t="Funnel de compra">
+ <div class="ph"><div><h2>Funnel de conversión</h2><p>De 814 usuarios, 5 iniciaron la compra y 1 compró.</p></div></div>
+ <div class="cols w">
+  <div class="panel"><h3>Paso a paso</h3><p class="ps">Usuarios únicos, 25 de octubre al 1 de noviembre.</p><svg id="fun5" viewBox="0 0 440 300" role="img" aria-label="Funnel: 814, 225, 8, 5, 2"></svg></div>
+  <div class="panel"><h3>Mobile contra desktop</h3><p class="ps">El 83% navega en celular, pero la compra fue en desktop.</p>
+   <div class="tbl"><table><thead><tr><th></th><th>Mobile</th><th>Desktop</th></tr></thead><tbody>
+    <tr><td>Inicio de sesión</td><td><b>674</b></td><td><b>130</b></td></tr>
+    <tr><td>Ven producto</td><td>172</td><td>51</td></tr>
+    <tr><td>Agregan al carrito</td><td>2</td><td>6</td></tr>
+    <tr><td>Paso a carrito</td><td><span class="pill p-bad">1%</span></td><td><span class="pill p-ok">12%</span></td></tr>
+    <tr><td>Inician compra</td><td>1</td><td>4</td></tr>
+    <tr><td>Compran</td><td>0</td><td><b>1</b></td></tr>
+   </tbody></table></div>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="page" id="productos5" data-t="Productos y páginas">
+ <div class="ph"><div><h2>Productos y páginas más vistas</h2><p>Por dónde entra la gente y qué recorre dentro de la tienda.</p></div></div>
+ <div class="cols">
+  <div class="panel"><h3>Fichas por donde más se entra</h3><p class="ps">25/10 al 1/11 · 120 sesiones entraron directo a una ficha (12% del total).</p><div id="landing5"></div>
+   <div class="note">El hervidor Bosch trae más entradas, pero la gente se queda 13 s. El lavavajillas Predicta retiene <b>1 min 13 s</b> y terminó en una compra de $419.990.</div></div>
+  <div class="panel"><h3>Páginas más vistas</h3><p class="ps">25/10 al 1/11 · 1.974 vistas en total.</p><div id="pages5"></div>
+   <div class="note">La home concentra el <b>43% de las vistas</b>. El buscador baja a 1,6 vistas por usuario.</div></div>
+ </div>
+</section>
+
+<!-- AUDIENCIA -->
+<section class="page" id="audiencia5" data-t="Audiencia">
+ <div class="ph"><div><h2>Audiencia</h2><p>Santiago concentra 8 de cada 10 usuarios y crece el peso de las mujeres (73%). Esta semana el rango con más usuarios es 25 a 34 años.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Región Metropolitana</div><div class="tv">80%</div><div class="td" style="color:var(--sky2)">de los usuarios</div></div>
+  <div class="tile"><div class="tl2">Mujeres</div><div class="tv">73%</div><div class="td mu">27% hombres</div></div>
+  <div class="tile"><div class="tl2">Rango con más usuarios</div><div class="tv">25–34</div><div class="td mu">años</div></div>
+  <div class="tile"><div class="tl2">Navegan en celular</div><div class="tv">83%</div><div class="td mid">la experiencia mobile manda</div></div>
+ </div>
+ <div class="cols">
+  <div class="panel"><h3>Usuarios por edad</h3><p class="ps">Usuarios activos con edad identificada.</p><div id="ages5"></div></div>
+  <div class="panel"><h3>Usuarios por región</h3><p class="ps">Usuarios activos, principales regiones.</p><div id="regions5"></div></div>
+ </div>
+</section>
+
+<!-- MEJORAS -->
+<section class="page" id="mejoras5" data-t="Mejoras en la tienda">
+ <div class="ph"><div><h2>Mejoras en la tienda</h2><p>La compra ya se registra en GA4 y el nuevo plan de paid está implementado; queda ajustar cómo llega la compra a Google Ads y Meta.</p></div></div>
+ <div class="panel">
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Registro de la compra en GA4:</b> ya mide las compras de la tienda.</p></div>
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Cambios en la home</b> con Bsale.</p></div>
+  <div class="qa"><span class="k pill p-mid">En proceso</span><p><b>Compra en Google Ads y Meta:</b> ticket abierto en Bsale, en proceso de resolución.</p></div>
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Nuevo plan de paid media:</b> los cambios ya están implementados.</p></div>
+ </div>
+</section>
+
+<!-- REDES -->
+<section class="page" id="redes5" data-t="Instagram">
+ <div class="ph"><div><h2>Instagram</h2><p>Cierre de octubre. Seguidores, visualizaciones e interacciones superan el objetivo; la tasa de engagement queda abajo.</p></div></div>
+ <div class="panel"><h3>Objetivos de octubre contra resultado al 31/10</h3><p class="ps">La barra llena es el objetivo del mes.</p><div class="goals" id="igGoals5"></div>
+  <div class="note">Seguidores estimados: 2.941 al cierre de septiembre más <b>1.017 nuevos en octubre</b>. La tasa de engagement es 3.029 interacciones sobre 158.261 visualizaciones.</div></div>
+ <div class="tiles">
+  <div class="tile"><div class="tl2">Visualizaciones, 25 al 31/10</div><div class="tv">31,2 mil</div><div class="td mid">−27% contra 18 al 24/10</div></div>
+  <div class="tile"><div class="tl2">Seguidores nuevos</div><div class="tv">204</div><div class="td mid">−22%</div></div>
+  <div class="tile"><div class="tl2">Clics en el enlace</div><div class="tv">1.173</div><div class="td mid">−18%</div></div>
+  <div class="tile"><div class="tl2">Visitas al perfil</div><div class="tv">828</div><div class="td mid">−29%</div></div>
+ </div>
+ <div class="cols" style="grid-template-columns:1fr">
+  <div class="panel"><h3>Contenidos de la semana</h3><p class="ps">Publicaciones e historias del 25 al 31 de octubre, por visualizaciones.</p><div id="topPosts5"></div>
+   <div class="note">La masterclass de Navidad en colaboración con Heritage à Table es lo más visto de la semana.</div></div>
+ </div>
+</section>
+
+<!-- META -->
+<section class="page" id="meta5" data-t="Meta Ads">
+ <div class="ph"><div><h2>Meta Ads</h2><p>Cierre de octubre (1 al 31), en CLP. Tráfico sigue siendo la campaña más eficiente; Remarketing no registra ventas.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Invertido en octubre</div><div class="tv">$232.398</div><div class="td" style="color:var(--sky2)">$42.767 en la última semana</div></div>
+  <div class="tile"><div class="tl2">Clics en el enlace</div><div class="tv">5.835</div><div class="td mu">$40 cada uno</div></div>
+  <div class="tile"><div class="tl2">Seguidores de Instagram</div><div class="tv">704</div><div class="td ok">683 desde Engagement</div></div>
+  <div class="tile"><div class="tl2">Compras en Meta</div><div class="tv">0</div><div class="td mu">en octubre</div></div>
+ </div>
+ <div class="panel"><h3>Qué implementamos</h3><p class="ps">Plan de pauta continua de noviembre y diciembre.</p>
+  <p style="margin:0;color:var(--ink2);max-width:90ch">En Meta quedan tres campañas continuas: <b>Ventas · Catálogo por categoría</b>, que muestra los productos en oferta con foto y precio; <b>Ventas · Remarketing</b>, para quien ya vio un producto; e <b>Interacción · Posteos</b>, para seguir creciendo la comunidad en Instagram.</p></div>
+ <div class="cols w">
+  <div class="panel"><h3>Costo por clic por campaña</h3><p class="ps">Inversión de octubre y resultado de cada una.</p><svg id="cpcMeta5" viewBox="0 0 520 210" role="img" aria-label="Costo por clic por campaña en octubre"></svg>
+   <div class="tbl" style="margin-top:12px"><table><thead><tr><th>Campaña</th><th>Inversión</th><th>Clics</th><th>Resultado</th></tr></thead><tbody>
+    <tr><td><b>Engagement</b> · posteos</td><td>$152.992</td><td>4.002</td><td>683 seguidores</td></tr>
+    <tr><td><b>Tráfico</b> · consideración</td><td>$31.945</td><td>1.474</td><td>1.161 visitas a la web</td></tr>
+    <tr><td><b>Remarketing</b> · ventas</td><td>$47.461</td><td>359</td><td>0 compras</td></tr>
+   </tbody></table></div></div>
+  <div class="panel"><h3>La última semana</h3><p class="ps">25 de octubre al 1 de noviembre.</p>
+   <div class="dg"><div class="ic mid">↓</div><div><b>Invertimos $42.767</b><span>33% menos que del 18 al 25 de octubre ($64.122), con el recorte de pauta en marcha.</span></div></div>
+   <div class="dg"><div class="ic ok">+</div><div><b>Tráfico trajo 367 visitas a la web</b><span>A $28 cada una, con $10.284 de inversión.</span></div></div>
+   <div class="dg"><div class="ic mid">■</div><div><b>Engagement terminó el 31/10</b><span>Del 25 al 31 sumó 652 visitas al perfil con $24.279.</span></div></div>
+</div>
+ </div>
+</section>
+
+<!-- GOOGLE -->
+<section class="page" id="google5" data-t="Google Ads">
+ <div class="ph"><div><h2>Google Ads</h2><p>25 de octubre al 1 de noviembre, datos de Analytics. Google pago trae el tráfico más calificado de la tienda.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Sesiones desde Google pago</div><div class="tv">227</div><div class="td" style="color:var(--sky2)">24% del tráfico · antes 272</div></div>
+  <div class="tile"><div class="tl2">Tiempo de interacción</div><div class="tv">1 min 10 s</div><div class="td ok">antes 56 s</div></div>
+  <div class="tile"><div class="tl2">Performance Max (multirred)</div><div class="tv">164</div><div class="td mu">sesiones · 78% con interacción</div></div>
+  <div class="tile"><div class="tl2">Búsqueda paga</div><div class="tv">68</div><div class="td mu">sesiones · 74% con interacción</div></div>
+ </div>
+ <div class="panel"><h3>Qué implementamos</h3><p class="ps">Plan de pauta continua de noviembre y diciembre.</p>
+  <p style="margin:0;color:var(--ink2);max-width:90ch">En Google Ads quedan tres campañas continuas: <b>Search · Marca Bosch</b>, para quien ya busca Bosch y el local; <b>Search · Categorías</b>, que lleva cada búsqueda a su categoría (lavavajillas, hornos, campanas y más); y <b>Performance Max</b>, con los productos del feed y su precio. Google Ads toma las compras desde Google Analytics para medir cada venta por campaña (ticket abierto en Bsale, en proceso de resolución). Google recibe el 60% de la pauta del mes.</p></div>
+ <div class="panel"><h3>Qué leemos</h3><p class="ps">Calidad de las visitas de Google Ads.</p>
+  <ul class="ins">
+   <li><b>Google pago</b> trae 227 visitas (24% del tráfico) y son las de mayor interacción de la pauta: 1 min 10 s, contra 56 s la semana anterior.</li>
+   <li><b>Performance Max</b> aporta 164 sesiones con 78% de interacción y la <b>búsqueda paga</b> 68 con 74%.</li>
+   <li><b>Ticket abierto en Bsale:</b> Google Ads todavía no registra los eventos de la tienda, por eso hoy la información se toma desde Analytics. Está en proceso de resolución.</li>
+  </ul></div>
+</section>
+
+<!-- PRESUPUESTO -->
+<section class="page" id="presupuesto5" data-t="Presupuesto">
+ <div class="ph"><div><h2>Inversión actualizada</h2><p>Inversión acumulada al 1 de noviembre, en pesos chilenos y en dólares (TC $985).</p></div></div>
+ <div class="cols">
+  <div class="panel"><h3>Consumo acumulado</h3><p class="ps">Presupuesto de octubre: USD 1.100 · CLP 1.083.500.</p>
+   <div class="dwrap"><svg id="bud5" viewBox="0 0 200 200" role="img" aria-label="Presupuesto consumido 59%"></svg><div class="dl" id="budLeg5"></div></div></div>
+  <div class="panel"><h3>Detalle por canal</h3><p class="ps">CLP y USD.</p>
+   <div class="tbl"><table><thead><tr><th>Canal</th><th>Período</th><th>CLP</th><th>USD</th></tr></thead><tbody>
+    <tr><td><b>Meta</b></td><td>1/10 al 1/11</td><td>$235.170</td><td>USD 239</td></tr>
+    <tr><td><b>Google</b></td><td>1/10 al 25/10</td><td>$407.337</td><td>USD 414</td></tr>
+    <tr><td><b>Total registrado</b></td><td></td><td><b>$642.507</b></td><td><b>USD 652</b></td></tr>
+    <tr><td>Meta, última semana</td><td>25/10 al 1/11</td><td>$42.767</td><td>USD 43</td></tr>
+   </tbody></table></div>
+   <div class="note"><b>Google del 26/10 al 1/11:</b> se suma con el próximo export de Google Ads.</div></div>
+ </div>
+</section>
+
+<!-- PENDIENTES -->
+<section class="page" id="pendientes5" data-t="Avances y pendientes">
+ <div class="ph"><div><h2>Avances y pendientes</h2><p>Estado al 2 de noviembre. Seis temas dependen de Newsan.</p></div></div>
+ <div class="kan">
+  <div class="kcol"><h3><span class="pill p-ok">Resueltos</span><span class="n">9</span></h3>
+   <div class="kcard"><b>Registro de la compra</b><span>Ya se registra en GA4</span></div>
+   <div class="kcard"><b>Microsoft Clarity incorporado</b><span>Para ver cómo navegan los usuarios en la tienda</span></div>
+   <div class="kcard"><b>Nuevo plan de paid media</b><span>Cambios implementados</span></div>
+   <div class="kcard"><b>Cambios en la home</b><span>Con Bsale</span></div>
+   <div class="kcard"><b>Plan de influencers</b><span>Listo para presentar</span></div>
+   <div class="kcard"><b>Contenido de noviembre</b><span>Listado de productos en promoción recibido</span></div>
+   <div class="kcard"><b>Plantillas de mensajes para redes</b><span>No dejar precios en comentarios: seguimiento uno a uno</span></div>
+   <div class="kcard"><b>Descuentos de noviembre</b><span>Para 11.11 y Black Friday</span></div>
+   <div class="kcard"><b>WhatsApp para conectar en Bsale</b><span>Número definido</span></div></div>
+  <div class="kcol"><h3><span class="pill p-mid">En proceso · Patagonia</span><span class="n">3</span></h3>
+   <div class="kcard"><b>Compra en Google Ads y Meta</b><span>Ticket abierto en Bsale · en proceso de resolución</span></div>
+   <div class="kcard"><b>Partner para grabar contenido</b><span>Semana 2 de noviembre</span></div>
+   <div class="kcard"><b>Look de categoría para campañas</b><span>Semana 1 de noviembre</span></div></div>
+  <div class="kcol"><h3><span class="pill p-bad">Pendiente de Newsan</span><span class="n">6</span></h3>
+   <div class="kcard"><b>Plan de Black Friday</b><span>• Productos a promocionar: confirmar precios</span></div>
+   <div class="kcard"><b>Landing Club de Beneficios</b><span>Revisar y devolver feedback · Club Experto / Club Bosch Lover</span></div>
+   <div class="kcard"><b>Cuotas para las campañas</b><span>Habilitarlas con los bancos</span></div>
+   <div class="kcard"><b>Dominio de Newsan Chile</b><span>Quién lo compró, en qué plataforma y con qué accesos</span></div>
+   <div class="kcard"><b>Producto para sorteo</b><span>Definir el producto</span></div>
+   <div class="kcard"><b>Key visual para Marketplace</b></div></div>
+ </div>
+</section>
+</div>
+<p class="foot">Patagonia Soluciones Digitales · Reporte semanal Newsan Chile, 25 de octubre al 1 de noviembre 2026. Fuentes: GA4, Meta Ads, Google Ads e Instagram. Montos en CLP.</p>
+</div>
+<div class="wk" id="wk-s6" hidden>
+<section class="hero">
+ <p class="who">Reporte semanal de performance digital · Tienda Newsan Chile</p>
+ <h1>Semana del 1 al 7 de noviembre</h1>
+ <p class="lead">Primera semana con el nuevo plan de pauta: trae más visitas, más baratas y con carritos desde Google. El desafío ahora es convertir: 7 carritos y 0 compras.</p>
+ <div class="hstat">
+  <div><b>1.178</b><span>sesiones en la semana</span></div>
+  <div><b>7</b><span>carritos</span></div>
+  <div><b>0</b><span>compras</span></div>
+  <div><b>4.083</b><span>seguidores en Instagram al 9/11</span></div>
+ </div>
+ <div class="pace">
+  <div class="row"><span>Noviembre transcurrido</span><div class="bar"><span style="width:23%;background:#fff;opacity:.7"></span></div><b>23%</b></div>
+  <div class="row"><span>Presupuesto usado</span><div class="bar"><span style="width:17%;background:var(--sky)"></span></div><b>17%</b></div>
+ </div>
+</section>
+<div class="content">
+<!-- RESUMEN -->
+<section class="page" id="resumen6" data-t="Resumen">
+ <div class="ph"><div><h2>Lo más importante de la semana</h2><p>Cifras de GA4 e Instagram del 1 al 7 de noviembre.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Sesiones, 1/11 al 7/11</div><div class="tv">1.178</div><div class="td" style="color:var(--sky2)">entre 121 y 262 por día</div></div>
+  <div class="tile"><div class="tl2">Ven un producto</div><div class="tv">34,8%</div><div class="td mu">361 de 1.037 usuarios</div></div>
+  <div class="tile"><div class="tl2">Agregan al carrito</div><div class="tv">7</div><div class="td mid">3 inician la compra</div></div>
+  <div class="tile"><div class="tl2">Compras</div><div class="tv">0</div><div class="td bad">&nbsp;</div></div>
+ </div>
+ <div class="cols">
+  <div class="panel"><h3>Lo que salió bien</h3><p class="ps">El nuevo plan de pauta trae más tráfico y más barato.</p>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Más visitas con menos inversión en Meta</b><span>1.178 sesiones (+39%) con 16% menos inversión en Meta. Las sesiones con interacción también suben: 654, contra 498 del 25 al 31/10.</span></div></div>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Performance Max ya trae carritos por debajo de la meta</b><span>Clic a $196 (meta de noviembre: $376). Performance Max consigue carritos a $9.372, debajo de la meta de $10.027.</span></div></div>
+   <div class="dg"><div class="ic ok">✓</div><div><b>Una comunidad más activa</b><span>Engagement de 4,5% contra una meta de 3%. Desde que arrancó la campaña al perfil (5/11) entraron 111 seguidores nuevos en 3 días.</span></div></div>
+  </div>
+  <div class="panel"><h3>Lo que hay que resolver</h3><p class="ps">Para que el tráfico se convierta en ventas.</p>
+   <div class="dg"><div class="ic mid">↓</div><div><b>La ficha de producto no convierte</b><span>Solo 1,9% de quienes ven un producto lo agrega al carrito; en celular, donde están 8 de cada 10 usuarios, 1,7%.</span></div></div>
+   <div class="dg"><div class="ic bad">!</div><div><b>0 compras</b><span>3 personas iniciaron la compra y 0 la terminaron. La meta de noviembre es 5 compras.</span></div></div>
+   <div class="dg"><div class="ic mid">$</div><div><b>Inversión que todavía no rinde</b><span>Search · Marca usa el 40% de Google sin carritos y Remarketing en Meta tiene 0 compras.</span></div></div>
+  </div>
+ </div>
+ <div class="panel"><h3>Qué nos dice esta semana</h3><p class="ps">Primera semana con el nuevo plan de pauta: el cambio dio resultado en dos frentes.</p>
+  <div class="dg"><div class="ic ok">1</div><div><b>Más tráfico a la tienda</b><span>Llegaron 39% más visitas que la semana anterior, con 16% menos inversión en Meta. Google trae las visitas de mejor calidad, y Performance Max ya consigue carritos más baratos que la meta ($9.372 contra $10.027).</span></div></div>
+  <div class="dg"><div class="ic ok">2</div><div><b>Más comunidad en Instagram</b><span>La pauta dejó de buscar alcance y pasó a buscar interacción: bajaron las visualizaciones (−33%), pero subieron las interacciones (+20%) y el engagement llegó a 4,5%, sobre la meta de 3%.</span></div></div>
+  <div class="dg"><div class="ic mid">3</div><div><b>El próximo paso es convertir</b><span>La pauta ya atrae gente y la comunidad está más activa, pero hubo 7 carritos y 0 compras. El freno está entre ver el producto y agregarlo al carrito, sobre todo en celular.</span></div></div>
+  <div class="dg"><div class="ic mid">4</div><div><b>Próximos pasos antes de Black Friday</b><span>Mover inversión hacia las campañas que traen carritos, mejorar la ficha de producto y la compra en celular, y sostener la campaña al perfil de Instagram para llegar a la meta de seguidores del mes.</span></div></div>
+ </div>
+</section>
+
+<!-- TRAFICO -->
+<section class="page" id="trafico6" data-t="Tráfico">
+ <div class="ph"><div><h2>Evolutivo de tráfico</h2><p>1 al 7 de noviembre, GA4. Instagram pago y Google pago traen 7 de cada 10 visitas; Google trae las más largas.</p></div></div>
+ <div class="panel"><h3>Sesiones por día</h3><p class="ps">Pico el 3/11 (262) y piso el 1/11 (121). Valores diarios de GA4.</p>
+  <svg id="daily6" viewBox="0 0 820 230" role="img" aria-label="Sesiones por día del 1 al 7 de noviembre"></svg></div>
+ <div class="cols w">
+  <div class="panel"><h3>De dónde vienen las visitas</h3><p class="ps">Sesiones por fuente y tiempo promedio de interacción.</p><div id="sources6"></div></div>
+  <div class="panel"><h3>Qué leemos</h3><p class="ps">Volumen no es lo mismo que calidad.</p>
+   <ul class="ins">
+    <li><b>Instagram pago</b> es la primera fuente: 407 sesiones (35%), con 24 s de interacción.</li>
+    <li><b>Google pago</b> aporta 393 (33%, antes 200) y es el tráfico más calificado de la pauta: 49 s.</li>
+    <li><b>Facebook referido</b> suma 150 sesiones, 112 de ellas el 3/11, con 1 s de interacción: visitas que no se quedan.</li>
+    <li>En total, 1.178 sesiones (+39% contra el 25 al 31/10), 55,5% con interacción y 29 s en promedio.</li>
+   </ul></div>
+ </div>
+</section>
+
+<!-- FUNNEL -->
+<section class="page" id="funnel6" data-t="Funnel de compra">
+ <div class="ph"><div><h2>Funnel de conversión</h2><p>De 1.037 usuarios, 3 iniciaron la compra y 0 compraron.</p></div></div>
+ <div class="cols w">
+  <div class="panel"><h3>Paso a paso</h3><p class="ps">Usuarios únicos, 1 al 7 de noviembre.</p><svg id="fun6" viewBox="0 0 440 300" role="img" aria-label="Funnel: 1037, 361, 7, 3, 0"></svg></div>
+  <div class="panel"><h3>Mobile contra desktop</h3><p class="ps">El 83% navega en celular; desktop agrega al carrito casi el doble.</p>
+   <div class="tbl"><table><thead><tr><th></th><th>Mobile</th><th>Desktop</th></tr></thead><tbody>
+    <tr><td>Inicio de sesión</td><td><b>864</b></td><td><b>162</b></td></tr>
+    <tr><td>Ven producto</td><td>296</td><td>62</td></tr>
+    <tr><td>Agregan al carrito</td><td>5</td><td>2</td></tr>
+    <tr><td>Paso a carrito</td><td><span class="pill p-bad">1,7%</span></td><td><span class="pill p-mid">3,2%</span></td></tr>
+    <tr><td>Inician compra</td><td>2</td><td>1</td></tr>
+    <tr><td>Compran</td><td>0</td><td>0</td></tr>
+   </tbody></table></div>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="page" id="productos6" data-t="Productos y páginas">
+ <div class="ph"><div><h2>Productos y páginas más vistas</h2><p>Por dónde entra la gente y qué recorre dentro de la tienda.</p></div></div>
+ <div class="cols">
+  <div class="panel"><h3>Fichas por donde más se entra</h3><p class="ps">1/11 al 7/11 · 297 sesiones entraron directo a una ficha (25% del total).</p><div id="landing6"></div>
+   <div class="note">El hervidor Bosch y el robot de cocina traen más entradas, pero la gente se queda 16 s y 1 s. El lavavajillas Predicta retiene <b>1 min 08 s</b>.</div></div>
+  <div class="panel"><h3>Páginas más vistas</h3><p class="ps">1/11 al 7/11 · 2.110 vistas en total.</p><div id="pages6"></div>
+   <div class="note">La home concentra el <b>36% de las vistas</b>. El horno Bosch Serie 4 retiene <b>1 min 07 s</b> por usuario, que lo ve 4 veces en promedio.</div></div>
+ </div>
+</section>
+
+<!-- AUDIENCIA -->
+<section class="page" id="audiencia6" data-t="Audiencia">
+ <div class="ph"><div><h2>Audiencia</h2><p>Santiago concentra 6 de cada 10 usuarios: esta semana crece el tráfico desde el exterior (14% desde Estados Unidos). Las mujeres son el 76% y el rango con más usuarios es 55 a 64 años.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Región Metropolitana</div><div class="tv">64%</div><div class="td" style="color:var(--sky2)">de los usuarios</div></div>
+  <div class="tile"><div class="tl2">Mujeres</div><div class="tv">76%</div><div class="td mu">24% hombres</div></div>
+  <div class="tile"><div class="tl2">Rango con más usuarios</div><div class="tv">55–64</div><div class="td mu">años</div></div>
+  <div class="tile"><div class="tl2">Navegan en celular</div><div class="tv">83%</div><div class="td mid">la experiencia mobile manda</div></div>
+ </div>
+ <div class="cols">
+  <div class="panel"><h3>Usuarios por edad</h3><p class="ps">Usuarios activos con edad identificada.</p><div id="ages6"></div></div>
+  <div class="panel"><h3>Usuarios por región</h3><p class="ps">Usuarios activos, principales regiones.</p><div id="regions6"></div></div>
+ </div>
+</section>
+
+<!-- MEJORAS -->
+<section class="page" id="mejoras6" data-t="Mejoras en la tienda">
+ <div class="ph"><div><h2>Mejoras en la tienda</h2><p>La compra ya se registra en GA4 y el nuevo plan de paid está implementado; queda ajustar cómo llega la compra a Google Ads y Meta.</p></div></div>
+ <div class="panel">
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Registro de la compra en GA4:</b> ya mide las compras de la tienda.</p></div>
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Cambios en la home</b> con Bsale.</p></div>
+  <div class="qa"><span class="k pill p-mid">En proceso</span><p><b>Compra en Google Ads y Meta:</b> ticket abierto en Bsale, en proceso de resolución.</p></div>
+  <div class="qa"><span class="k pill p-ok">Hecho</span><p><b>Nuevo plan de paid media:</b> los cambios ya están implementados.</p></div>
+ </div>
+</section>
+
+<!-- REDES -->
+<section class="page" id="redes6" data-t="Instagram">
+ <div class="ph"><div><h2>Instagram</h2><p>Primera semana de noviembre. El engagement supera la meta; visualizaciones, espectadores e interacciones van por debajo del ritmo del mes.</p></div></div>
+ <div class="panel"><h3>Objetivos de noviembre contra avance al 7/11</h3><p class="ps">La barra llena es el objetivo del mes.</p><div class="goals" id="igGoals6"></div>
+  <div class="note">Seguidores: <b>3.958</b> al cierre de octubre y <b>4.083</b> al 9/11 (+125 de los 792 que pide la meta). Desde noviembre la tasa de engagement se calcula sobre espectadores: 636 interacciones sobre 14.087 espectadores.</div></div>
+ <div class="tiles">
+  <div class="tile"><div class="tl2">Visualizaciones, 1 al 7/11</div><div class="tv">21,0 mil</div><div class="td mid">−33% contra 25 al 31/10</div></div>
+  <div class="tile"><div class="tl2">Seguidores nuevos</div><div class="tv">128</div><div class="td mid">−37%</div></div>
+  <div class="tile"><div class="tl2">Clics en el enlace</div><div class="tv">687</div><div class="td mid">−41%</div></div>
+  <div class="tile"><div class="tl2">Visitas al perfil</div><div class="tv">388</div><div class="td mid">−53%</div></div>
+ </div>
+ <div class="cols" style="grid-template-columns:1fr" id="postsBox6" hidden>
+  <div class="panel"><h3>Contenidos de la semana</h3><p class="ps">Publicaciones e historias del 1 al 7 de noviembre, por visualizaciones.</p><div id="topPosts6"></div>
+   <div class="note" id="postsNote6"></div></div>
+ </div>
+</section>
+
+<!-- META -->
+<section class="page" id="meta6" data-t="Meta Ads">
+ <div class="ph"><div><h2>Meta Ads</h2><p>1 al 7 de noviembre, en CLP. Tráfico a la web sigue siendo la campaña más eficiente; Remarketing: 0 compras.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Invertido en la semana</div><div class="tv">$33.638</div><div class="td" style="color:var(--sky2)">16% menos que del 25 al 31/10</div></div>
+  <div class="tile"><div class="tl2">Clics (todos)</div><div class="tv">1.201</div><div class="td mu">$28 cada uno</div></div>
+  <div class="tile"><div class="tl2">Interacciones con posteos</div><div class="tv">508</div><div class="td ok">$21 cada una</div></div>
+  <div class="tile"><div class="tl2">Compras en Meta</div><div class="tv">0</div><div class="td mu">en la semana</div></div>
+ </div>
+ <div class="panel"><h3>Qué implementamos</h3><p class="ps">Plan de pauta continua de noviembre y diciembre.</p>
+  <p style="margin:0;color:var(--ink2);max-width:90ch">En la semana corrieron cuatro campañas: <b>Tráfico · Consideración</b>, que lleva a la tienda (terminó el 8/11); <b>Ventas · Remarketing</b>, para quien ya vio un producto; <b>Interacción · Posteos IG</b>, para sumar interacciones en Instagram; y <b>Tráfico · Posteos al perfil</b>, que arrancó el 5/11 y sigue hasta el 30/11.</p></div>
+ <div class="cols w">
+  <div class="panel"><h3>Costo por clic por campaña</h3><p class="ps">Inversión de la semana y resultado de cada una.</p><svg id="cpcMeta6" viewBox="0 0 520 262" role="img" aria-label="Costo por clic por campaña del 1 al 7 de noviembre"></svg>
+   <div class="tbl" style="margin-top:12px"><table><thead><tr><th>Campaña</th><th>Inversión</th><th>Clics</th><th>Resultado</th></tr></thead><tbody>
+    <tr><td><b>Interacción</b> · posteos IG</td><td>$10.778</td><td>287</td><td>508 interacciones</td></tr>
+    <tr><td><b>Tráfico</b> · consideración</td><td>$8.718</td><td>446</td><td>322 visitas a la web</td></tr>
+    <tr><td><b>Tráfico</b> · posteos al perfil</td><td>$7.145</td><td>299</td><td>200 visitas al perfil</td></tr>
+    <tr><td><b>Remarketing</b> · ventas</td><td>$6.997</td><td>169</td><td>0 compras</td></tr>
+   </tbody></table></div></div>
+  <div class="panel"><h3>La última semana</h3><p class="ps">1 al 7 de noviembre, contra la semana anterior.</p>
+   <div class="dg"><div class="ic mid">↓</div><div><b>Invertimos $33.638</b><span>16% menos que del 25 al 31 de octubre ($39.995).</span></div></div>
+   <div class="dg"><div class="ic ok">+</div><div><b>Tráfico trajo 322 visitas a la web</b><span>A $27 cada una, con $8.718 de inversión.</span></div></div>
+   <div class="dg"><div class="ic mid">■</div><div><b>Posteos al perfil arrancó el 5/11</b><span>En 3 días sumó 200 visitas al perfil, a $36 cada una.</span></div></div>
+</div>
+ </div>
+</section>
+
+<!-- GOOGLE -->
+<section class="page" id="google6" data-t="Google Ads">
+ <div class="ph"><div><h2>Google Ads</h2><p>1 al 7 de noviembre. Con Google Ads vinculado a Analytics ya vemos inversión, clics y carritos por campaña.</p></div></div>
+ <div class="tiles">
+  <div class="tile focus"><div class="tl2">Sesiones desde Google pago</div><div class="tv">393</div><div class="td" style="color:var(--sky2)">33% del tráfico · antes 200</div></div>
+  <div class="tile"><div class="tl2">Tiempo de interacción</div><div class="tv">49 s</div><div class="td mid">antes 1 min 08 s</div></div>
+  <div class="tile"><div class="tl2">Performance Max (multirred)</div><div class="tv">$37.489</div><div class="td mu">268 clics · 4 carritos</div></div>
+  <div class="tile"><div class="tl2">Búsqueda paga</div><div class="tv">$45.860</div><div class="td mu">158 clics · 1 carrito</div></div>
+ </div>
+ <div class="panel"><h3>Qué implementamos</h3><p class="ps">Plan de pauta continua de noviembre y diciembre.</p>
+  <p style="margin:0;color:var(--ink2);max-width:90ch">En Google Ads quedan tres campañas continuas: <b>Search · Marca Bosch</b>, para quien ya busca Bosch y el local; <b>Search · Categorías</b>, que lleva cada búsqueda a su categoría (lavavajillas, hornos, campanas y más); y <b>Performance Max</b>, con los productos del feed y su precio. Google Ads toma las compras desde Google Analytics para medir cada venta por campaña (ticket abierto en Bsale, en proceso de resolución). Google recibe el 60% de la pauta del mes.</p></div>
+ <div class="panel"><h3>Qué leemos</h3><p class="ps">Inversión y resultado de Google Ads.</p>
+  <ul class="ins">
+   <li><b>Google Ads</b> invirtió $83.350 en la semana: 426 clics a $196 y 5 carritos a $16.670 cada uno.</li>
+   <li><b>Performance Max</b> trae 4 de los 5 carritos, a $9.372 cada uno, con clics a $140. <b>Search · Categorías</b> suma 1 carrito con $12.840.</li>
+   <li><b>Search · Marca Bosch</b> invirtió $33.020 en 82 clics ($403 cada uno) y todavía no trae carritos.</li>
+  </ul></div>
+</section>
+
+<!-- PRESUPUESTO -->
+<section class="page" id="presupuesto6" data-t="Presupuesto">
+ <div class="ph"><div><h2>Inversión actualizada</h2><p>Inversión acumulada al 7 de noviembre, en pesos chilenos y en dólares (TC $985).</p></div></div>
+ <div class="cols">
+  <div class="panel"><h3>Consumo acumulado</h3><p class="ps">Presupuesto de noviembre: USD 694 · CLP 684.000.</p>
+   <div class="dwrap"><svg id="bud6" viewBox="0 0 200 200" role="img" aria-label="Presupuesto consumido 17%"></svg><div class="dl" id="budLeg6"></div></div></div>
+  <div class="panel"><h3>Detalle por canal</h3><p class="ps">CLP y USD.</p>
+   <div class="tbl"><table><thead><tr><th>Canal</th><th>Período</th><th>CLP</th><th>USD</th></tr></thead><tbody>
+    <tr><td><b>Meta</b></td><td>1/11 al 7/11</td><td>$33.638</td><td>USD 34</td></tr>
+    <tr><td><b>Google</b></td><td>1/11 al 7/11</td><td>$83.350</td><td>USD 85</td></tr>
+    <tr><td><b>Total noviembre</b></td><td></td><td><b>$116.988</b></td><td><b>USD 119</b></td></tr>
+    <tr><td>Octubre cerrado</td><td>1/10 al 31/10</td><td>$720.101</td><td>USD 731</td></tr>
+   </tbody></table></div>
+   <div class="note"><b>Octubre cerrado:</b> Google $487.703 y Meta $232.398. Se usó el 66% del presupuesto de octubre.</div></div>
+ </div>
+</section>
+
+<!-- PENDIENTES -->
+<section class="page" id="pendientes6" data-t="Avances y pendientes">
+ <div class="ph"><div><h2>Avances y pendientes</h2><p>Estado al 9 de noviembre. Seis temas dependen de Newsan.</p></div></div>
+ <div class="kan">
+  <div class="kcol"><h3><span class="pill p-ok">Resueltos</span><span class="n">10</span></h3>
+   <div class="kcard"><b>Identidad visual de Black Friday</b><span>Lista para las piezas del evento</span></div>
+   <div class="kcard"><b>Plantillas para Black Friday</b><span>Listas para redes</span></div>
+   <div class="kcard"><b>Producto para sorteo</b><span>Definido</span></div>
+   <div class="kcard"><b>Precios y piezas de Black Friday</b><span>Completos</span></div>
+   <div class="kcard"><b>Calendario de noviembre</b><span>Enviado</span></div>
+   <div class="kcard"><b>Nombre comercial en cards y fichas</b><span>Destacado en la tienda</span></div>
+   <div class="kcard"><b>Mockup de la web en Shopify</b><span>Presentado</span></div>
+   <div class="kcard"><b>Home mobile y WhatsApp en Bsale</b><span>Ajustes y conexión listos</span></div>
+   <div class="kcard"><b>Key visuals de Black Friday para marketplaces</b><span>Listos</span></div>
+   <div class="kcard"><b>Acciones con influencers</b><span>Propuesta lista</span></div></div>
+  <div class="kcol"><h3><span class="pill p-mid">En proceso · Patagonia</span><span class="n">3</span></h3>
+   <div class="kcard"><b>Compra en Google Ads y Meta</b><span>Depende del implementador de Bsale · ya se registra en Analytics</span></div>
+   <div class="kcard"><b>Reestructura de paid media</b><span>En curso</span></div>
+   <div class="kcard"><b>Edición de videos de noviembre</b><span>Para el contenido del mes</span></div></div>
+  <div class="kcol"><h3><span class="pill p-bad">Pendiente de Newsan</span><span class="n">6</span></h3>
+   <div class="kcard"><b>Material y contenido de partners para redes</b><span>Enviar el material para sumarlo al calendario</span></div>
+   <div class="kcard"><b>Textos de Club Experto y Club Bosch Lover</b><span>Para la landing del Club de Beneficios</span></div>
+   <div class="kcard"><b>Cuotas para las campañas</b><span>Habilitarlas con los bancos</span></div>
+   <div class="kcard"><b>Dominio de Newsan Chile</b><span>Quién lo compró, en qué plataforma y con qué accesos</span></div>
+   <div class="kcard"><b>Producción de contenido en Chile</b><span>Cotizar la producción de videos</span></div>
+   <div class="kcard"><b>Acceso a Google My Business</b><span>Sin acceso a la ficha</span></div></div>
+ </div>
+</section>
+</div>
+<p class="foot">Patagonia Soluciones Digitales · Reporte semanal Newsan Chile, 1 al 7 de noviembre 2026. Fuentes: GA4, Meta Ads, Google Ads e Instagram. Montos en CLP.</p>
+</div>
+<div class="wk" id="wk-m" hidden>
+<section class="hero">
+ <p class="who">Métricas del período · Tienda Newsan Chile</p>
+ <h1 id="mTitle">Métricas</h1>
+ <p class="lead" id="mLead"></p>
+ <div class="hstat" id="mStat"></div>
+</section>
+<div class="content">
+<section class="page" id="resumenm" data-t="Resumen">
+ <div class="ph"><div><h2>Resumen del período</h2><p id="mResSub"></p></div></div>
+ <div class="tiles" id="mTiles"></div>
+ <div class="panel" id="mEvoP" hidden><h3>Evolución semana a semana</h3><p class="ps">Semanas sin días repetidos: en octubre, de lunes a domingo; desde noviembre, del 1 al 7, del 8 al 14 y así.</p>
+  <div class="lg"><span><i style="background:var(--sky)"></i>Sesiones</span><span><i style="background:var(--navy)"></i>Carritos</span></div>
+  <svg id="evoSvg" viewBox="0 0 820 240" role="img" aria-label="Sesiones y carritos por semana"></svg>
+  <div class="tbl" id="mEvo" style="margin-top:12px"></div><p class="ps" id="mEvoNote" style="margin:10px 0 0"></p></div>
+</section>
+<section class="page" id="traficom" data-t="Tráfico">
+ <div class="ph"><div><h2>Evolutivo de tráfico</h2><p id="mTrSub"></p></div></div>
+ <div class="panel"><h3>Sesiones por día</h3><p class="ps">Valores diarios de GA4.</p><svg id="dailym" viewBox="0 0 820 230" role="img" aria-label="Sesiones por día"></svg></div>
+ <div class="panel"><h3>De dónde vienen las visitas</h3><p class="ps">Sesiones por fuente y tiempo promedio de interacción.</p><div id="sourcesm"></div></div>
+</section>
+<section class="page" id="funnelm" data-t="Funnel de compra">
+ <div class="ph"><div><h2>Funnel de conversión</h2><p id="mFuSub"></p></div></div>
+ <div class="cols w">
+  <div class="panel"><h3>Paso a paso</h3><p class="ps">Usuarios por día, sumados en el período.</p><svg id="funm" viewBox="0 0 440 300" role="img" aria-label="Funnel del período"></svg></div>
+  <div class="panel"><h3>Mobile contra desktop</h3><p class="ps">Usuarios por paso y dispositivo.</p><div class="tbl" id="mDev"></div></div>
+ </div>
+</section>
+<section class="page" id="productosm" data-t="Productos y páginas">
+ <div class="ph"><div><h2>Productos y páginas más vistas</h2><p id="mPrSub"></p></div></div>
+ <div class="cols">
+  <div class="panel"><h3>Fichas por donde más se entra</h3><p class="ps">Sesiones que entraron directo a una ficha y tiempo promedio.</p><div id="landingm"></div></div>
+  <div class="panel"><h3>Páginas más vistas</h3><p class="ps">Vistas en el período.</p><div id="pagesm"></div></div>
+ </div>
+</section>
+<section class="page" id="audienciam" data-t="Audiencia">
+ <div class="ph"><div><h2>Audiencia</h2><p id="mAuSub"></p></div></div>
+ <div class="tiles" id="mAuTiles"></div>
+ <div class="panel"><h3>Usuarios por región</h3><p class="ps">Usuarios activos por día, sumados en el período.</p><div id="regionsm"></div>
+  <div class="note">Edad y sexo se muestran solo en los reportes semanales: GA4 no los informa en días sueltos.</div></div>
+</section>
+<section class="page" id="metam" data-t="Meta Ads">
+ <div class="ph"><div><h2>Meta Ads</h2><p id="mMeSub"></p></div></div>
+ <div class="tiles" id="mMeTiles"></div>
+ <div class="panel"><h3>Por campaña</h3><p class="ps">Inversión, clics y resultado de cada campaña en el período.</p><div class="tbl" id="mMeTbl"></div>
+  <div class="note">Clics (todos) según el export diario de Ads Manager. Las campañas empezaron a gastar el 5 de octubre.</div></div>
+</section>
+<section class="page" id="googlem" data-t="Google Ads">
+ <div class="ph"><div><h2>Google Ads</h2><p id="mGoSub"></p></div></div>
+ <div class="tiles" id="mGoTiles"></div>
+ <div class="panel"><h3>Sesiones por día desde Google pago</h3><p class="ps">Valores diarios de GA4.</p><svg id="dailyg" viewBox="0 0 820 230" role="img" aria-label="Sesiones por día desde Google pago"></svg>
+  <div class="note"><b>Ticket abierto en Bsale:</b> Google Ads todavía no registra los eventos de la tienda, por eso hoy la información se toma desde Analytics. Está en proceso de resolución.</div></div>
+</section>
+<section class="page" id="redesm" data-t="Instagram">
+ <div class="ph"><div><h2>Instagram</h2><p id="mIgSub"></p></div></div>
+ <div class="tiles" id="mIgTiles"></div>
+ <div class="panel"><h3>Contenidos del período</h3><p class="ps">Publicaciones e historias de la cuenta, por visualizaciones.</p><div id="topPostsm"></div></div>
+</section>
+</div>
+<p class="foot">Patagonia Soluciones Digitales · Métricas Newsan Chile. Fuentes: GA4 (datos diarios), Meta Ads (datos diarios) e Instagram (datos diarios al 7 de noviembre).</p>
+</div>
+ </div>
+</div>
+<script type="text/plain" id="dailyData">
+P:/ /collection/hornos-y-microondas /collection/lavavajillas /search /brand/bosch /collection/todos-los-productos /collection/electro-de-cocina /collection/refrigeradores-y-congeladores /collection/encimeras-y-placas /collection/campanas /product/robot-de-cocina-mum2-900w /product/lavavajillas-bosch-serie-2-sms25ai05e-60-cm-12-cubiertos-acero-inoxidable /product/lavavajillas-14-cubiertos-panelable-predicta-pdlvi014icl-negro /collection/lavarropas-y-secarropas /product/horno-empotrable-bosch-serie-4-hba514es3-60-cm-71-l-inox /product/lavavajillas-bosch-serie-2-sms25aw05e-12-cubiertos-blanco /collection/climatizacion /collection/coccion-y-empotrables
+L:robot-de-cocina-mum2-900w hervidor-electrico-bosch-1-7l-acero-inoxidable-negro lavavajillas-bosch-serie-2-sms25ai05e-60-cm-12-cubiertos-acero-inoxidable aire-acondicionado-portatil-noblex-frio-calor-12000btu-3en1-240v-green-efficient-np3500h1 cafetera-empotrable-bosch-serie-8-ctl7181b0-home-connect-19-bares-negro lavavajillas-14-cubiertos-panelable-predicta-pdlvi014icl-negro lavavajillas-bosch-serie-2-sms25aw05e-60-cm-12-cubiertos-blanco lavavajillas-compacto-integrable-bosch-serie-6-8-cubiertos encimera-de-induccion-5-zonas-pdeni050ncl-negro-predicta lavavajillas-libre-instalacion-bosch-6-cubiertos-blanco-sks2itw00e lavavajillas-panelable-bosch-serie-6-14-cubiertos-zeo cafetera-automatica-verocafe-s2 grill-electrico-bosch-tcg4104-2000-w-3-posiciones-placas-antiadherentes-rojo aspiradora-prosilence-serie-8 horno-empotrable-bosch-serie-8-hng6764s1-60-cm-67-l-vapor lavadora-bosch-serie-6-wgg244z0es-9-kg-1400-rpm-blanco refrigerador-no-frost-bosch-serie-4-kgn36xler-324-l-inox congelador-integrable-bosch-serie-6-gin81ace0-212-l-no-frost horno-empotrable-bosch-serie-4-hba514es3-60-cm-71-l-inox cava-de-vinos-noblex-nbcv28ncl-28-botellas-termoelectrica encimera-de-induccion-predicta-pdeni030ncl-60-cm-3-zonas
+1001|38/20|0|0 4/1/0 10/4/240 7/3/840 13/10/1950 2/1/7 0 0 2/1/14|17/6/2/0/0 13/6/0/0/0 0/0/0/0/0|120/30|33/27/15 7/4/20 - - 6/2/41 3/1/41 2/2/47 4/3/24 2/2/10 3/3/7 - - - -|- - - - - - - - - - - 2/3 - -|16/0/1/0
+1002|101/36|0|0 70/18/350 15/7/270 3/2/105 8/6/392 0 0 0 5/3/100|66/3/0/0/0 15/8/1/1/0 5/0/0/0/0|185/88|117/81/4 2/1/2 4/3/13 - 4/4/8 5/2/42 4/2/17 - - - - - - 3/3/9|- - - - - - - - - 1/0 - 1/0 1/39 -|48/12/2/0
+1003|13/7|0|0 6/4/366 3/1/6 3/1/51 0 1/1/7 0 0 0|8/4/0/0/0 0/0/0/0/0 0/0/0/0/0|25/8|6/5/29 2/1/17 1/1/53 3/2/25 - - - 1/1/5 1/1/0 1/1/11 - - - 1/1/0|- - - - - - - - - - - 2/0 - -|4/2/0/0
+1004|34/21|0|0 7/3/301 13/6/338 6/5/96 5/5/360 0 0 3/2/222 0|18/10/0/0/0 9/4/0/0/0 0/0/0/0/0|78/27|22/16/14 3/3/14 3/2/55 - - - 2/2/31 2/2/7 - 2/2/16 - 2/1/0 - 2/1/22|- - 1/0 - - - - - 1/26 - - - - 1/28|18/3/0/0
+1005|129/90|0|0 34/20/1292 35/21/525 31/28/2449 18/17/2448 0 0 2/1/8 9/3/102|55/16/1/1/0 49/21/3/2/0 1/1/0/0/0|377/105|130/85/20 7/7/16 10/8/21 33/12/31 12/5/77 10/3/68 9/9/13 9/5/31 17/10/38 - - - - 5/5/36|- - 1/106 - - 1/0 - - - 1/5 - - - 1/7|78/6/8/2
+1006|92/60|0|16/7/144 13/10/1651 29/21/1015 13/11/455 3/3/219 15/5/9 0 0 3/3/21|58/11/1/0/0 28/9/0/0/0 0/0/0/0/0|212/86|82/67/8 7/4/18 12/9/10 10/7/8 3/2/16 14/5/131 6/5/47 6/4/30 3/3/17 - - - - -|- - - - - - 1/72 - - - - - - -|50/4/0/0
+1007|118/69|0|28/15/336 20/9/340 40/26/1880 13/6/338 12/9/780 1/1/7 0 2/2/34 2/1/94|65/13/0/0/0 30/11/1/1/0 2/1/0/0/0|249/98|102/84/14 9/7/42 7/6/26 6/6/15 6/4/22 19/5/113 5/5/22 8/7/14 4/4/4 6/6/15 - - - -|- - - - - - - - - - - - - -|72/10/1/0
+1008|84/47|0|38/21/646 5/3/180 24/16/1176 8/4/200 3/1/84 0 3/1/9 0 3/1/10|66/12/0/0/0 8/2/0/0/0 0/0/0/0/0|146/75|73/62/11 5/4/36 8/7/24 6/6/11 8/4/33 - 4/4/16 - 4/4/21 3/1/22 - - 3/3/45 2/2/11|- - - 1/0 - - - - - - - - - 2/5|59/6/1/1
+1009|75/50|0|28/19/980 6/4/252 32/23/608 3/1/129 1/1/93 1/1/6 1/0/0 0 3/1/8|59/6/0/0/0 9/1/0/0/0 1/1/0/0/0|144/69|84/64/12 5/4/29 6/5/21 7/6/6 4/2/87 - 7/6/9 4/4/15 2/2/19 - - - - -|- - - - - - - - - - - - - -|49/10/1/3
+1010|71/48|0|33/21/1551 5/3/25 27/20/945 3/3/69 0 0 1/0/0 0 2/1/177|65/11/0/0/0 4/1/0/0/0 0/0/0/0/0|146/69|69/61/10 3/3/24 5/5/23 6/6/6 4/2/37 5/2/90 4/4/0 7/3/23 6/6/15 - - - - -|- - - - - - - - - - - - - -|53/11/1/0
+1011|58/36|0|28/17/504 12/8/816 13/7/741 4/3/484 1/1/226 0 0 0 0|47/6/0/0/0 7/5/1/1/0 0/0/0/0/0|148/54|56/47/13 5/4/25 9/9/12 10/7/40 4/1/65 16/3/135 3/3/10 - 4/4/22 - - - - 2/2/18|- - - - - - - - - - - - - -|40/6/2/0
+1012|269/136|0|78/45/3432 104/38/1248 41/30/2911 3/1/3 2/2/478 34/18/21 3/1/15 0 4/1/26|223/44/0/0/0 30/9/1/0/0 4/2/0/0/0|529/258|294/229/7 16/13/38 17/12/35 14/10/19 22/12/35 22/8/90 8/6/39 11/5/80 7/4/24 11/4/55 8/7/61 6/5/64 - -|2/7 1/18 - - 15/0 - - - 1/1 - - - - -|176/9/0/0
+1013|191/115|0|79/39/790 58/35/5046 37/30/1924 6/3/48 5/4/935 0 5/3/205 0 1/1/38|133/29/0/0/0 25/6/1/0/0 1/0/0/0/0|353/160|189/135/38 7/7/13 15/14/22 7/5/13 20/9/68 - 9/6/41 11/9/38 8/8/19 7/6/18 10/7/70 - 3/3/33 -|6/15 4/5 - - 1/0 - 5/0 1/0 - - - - - -|140/6/2/1
+1014|204/120|0|78/43/1482 74/48/4070 41/23/1886 3/1/174 2/2/242 0 0 0 7/3/257|160/26/0/0/0 28/6/0/0/0 0/0/0/0/0|394/188|195/159/17 16/15/13 15/14/20 13/9/14 26/15/72 14/5/66 8/7/24 - 6/5/15 5/5/20 5/4/42 - 9/7/36 -|2/0 - - - - - 1/173 - 1/0 - - - - -|163/3/1/0
+1015|171/99|0|73/32/730 52/35/4056 28/21/2436 9/5/81 3/3/300 0 2/0/0 2/2/10 2/1/43|125/24/0/0/0 21/7/0/0/0 2/0/0/0/0|340/148|160/122/18 15/9/32 19/13/27 - 5/3/31 7/2/137 7/6/30 6/6/11 14/10/17 6/5/44 9/6/109 - 7/5/3 -|4/0 - - - - 2/0 - 2/0 - - - 1/0 - 2/5|129/8/0/0
+1016|186/112|0|54/34/1134 79/46/5767 35/20/910 5/5/360 3/1/135 0 3/2/0 1/1/17 6/3/49|144/39/2/0/0 24/4/0/0/0 2/0/0/0/0|378/170|186/141/10 6/5/4 20/15/33 14/6/26 20/16/17 - 7/6/28 8/8/12 - - - 5/4/22 - -|2/0 - 1/0 1/13 1/0 - - - - - 2/12 1/23 - -|136/6/2/1
+1017|167/96|0|76/36/3344 60/35/2220 23/19/1886 1/1/52 0 1/1/20 2/1/0 0 4/3/172|132/40/0/0/0 12/6/1/0/0 0/0/0/0/0|374/145|148/116/13 10/9/19 20/14/36 12/6/35 8/6/29 19/6/106 5/3/48 13/10/24 6/6/19 5/5/16 - 6/3/17 6/6/23 -|2/0 - 1/0 2/7 - - - - 1/45 2/24 - - 2/26 -|119/9/0/1
+1018|206/121|0|92/50/1840 63/42/2205 39/21/1599 0 4/2/892 0 6/5/30 0 2/1/97|167/36/0/0/0 22/4/0/0/0 2/2/0/0/0|382/191|186/151/11 10/9/15 29/26/20 - 7/7/19 18/3/186 - 11/6/31 7/6/30 4/4/35 - - 5/6/29 -|1/0 1/9 1/0 3/117 - - 2/3 - - 1/12 - - - -|161/12/3/3
+1019|165/106|0|80/45/2000 35/27/1680 19/13/1254 14/9/728 11/10/858 0 2/1/0 1/0/0 3/1/25|113/29/3/1/0 23/11/3/2/0 2/0/0/0/0|376/138|161/117/15 18/13/28 35/23/30 10/5/5 8/6/38 13/7/46 - 5/5/14 10/4/27 7/5/16 - 5/5/11 7/7/46 -|2/95 - 2/0 - - 1/0 1/0 - - 1/0 1/0 - - -|116/11/1/0
+1020|221/139|0|80/39/1600 55/36/3355 45/33/1890 12/6/792 8/6/720 15/15/28 4/2/120 0 2/2/490|167/43/9/1/0 37/19/2/1/0 0/0/0/0/0|503/204|192/146/13 10/9/23 21/17/15 47/14/41 13/8/68 17/7/30 14/11/37 11/10/28 8/7/33 6/6/25 14/14/13 13/12/9 - -|11/1 6/9 8/10 2/67 - 1/63 - 1/92 - 1/4 - - - -|148/9/2/2
+1021|115/67|0|62/34/496 11/6/1111 23/16/1380 9/7/486 2/2/174 0 3/1/0 1/0/0 4/1/22|89/13/0/0/0 14/7/0/0/0 3/1/0/0/0|232/107|103/85/9 7/5/38 10/10/13 16/4/38 18/8/51 - 14/7/72 - - 3/3/14 5/5/82 4/3/16 4/4/17 3/3/20|- - 1/0 - - 1/0 - - 1/0 - - - - -|85/8/1/0
+1022|136/72|0|50/22/800 26/14/1924 21/15/714 8/8/880 4/4/540 23/5/20 2/2/0 0 2/2/448|106/16/0/0/0 21/10/2/1/0 2/0/0/0/0|299/129|101/79/17 50/44/11 13/12/21 9/4/14 7/3/29 9/3/58 6/6/22 4/4/16 11/7/35 6/5/32 7/5/18 - - 4/4/4|3/0 - 1/51 2/1 - 1/31 - 1/79 - - - - - -|84/7/3/0
+1023|115/59|0|43/18/2322 29/16/783 25/13/800 9/5/477 3/3/282 0 0 1/0/6 5/4/463|77/17/0/0/0 23/4/0/0/0 1/0/0/0/0|242/101|79/49/32 60/46/5 4/4/10 4/3/11 3/3/13 12/2/262 13/10/27 3/3/21 - - - - - -|- - - 2/12 - - - - - - 1/17 - - -|80/4/1/2
+1024|114/59|0|55/20/220 26/18/1196 22/16/1958 4/2/64 2/1/62 0 3/2/6 1/0/0 1/0/0|89/17/0/0/0 11/4/1/0/0 1/0/0/0/0|204/101|54/40/22 64/55/6 - 12/5/49 7/3/71 3/2/20 7/7/21 3/3/13 3/2/24 2/2/10 5/5/146 - - 2/2/8|1/0 - 1/22 2/176 - - - 1/0 - - - - - -|92/5/0/0
+1025|94/50|0|48/14/2208 27/21/3051 10/8/610 3/2/84 1/1/59 0 3/3/39 2/1/56 0|76/21/0/0/0 6/2/0/0/0 1/0/0/0/0|229/83|54/35/38 51/41/9 - - 6/3/42 8/3/57 14/9/45 3/1/22 6/4/35 3/2/36 - - - 3/3/25|1/0 1/43 2/0 1/6 - - - - - - - - 1/0 1/1|66/11/3/2
+1026|165/99|0|85/37/1190 32/25/2112 27/22/1053 12/10/1020 1/1/85 0 1/0/0 0 7/4/618|121/23/2/1/0 18/8/2/1/0 4/1/0/0/0|320/143|164/122/20 12/11/7 10/8/63 11/8/15 8/4/29 7/5/20 10/10/17 5/4/11 - - 9/9/7 - 5/4/67 5/5/10|1/2 2/0 - 1/7 - 1/186 - - 1/19 - - - 1/60 -|111/18/0/0
+1027|144/85|0|78/40/1482 30/20/1020 15/11/795 12/5/552 3/3/243 0 1/1/98 2/2/12 3/3/50|101/19/0/0/0 25/7/0/0/0 2/2/0/0/0|267/128|129/110/10 8/7/35 11/10/16 10/8/9 5/3/43 10/6/64 9/6/28 4/3/18 5/3/18 - - 4/4/7 - -|- 5/20 1/0 - - 2/6 1/19 2/51 - - - - 1/98 -|103/17/2/1
+1028|125/75|0|57/29/1653 34/23/2652 17/10/935 8/8/1032 0 1/1/1 3/2/279 0 5/2/24|93/27/0/0/0 18/6/0/0/0 0/0/0/0/0|264/111|118/92/17 10/11/21 4/4/18 12/5/51 13/3/86 - 7/4/73 5/4/20 4/3/16 - 5/3/27 4/3/30 - -|2/0 1/0 1/0 2/1 - - 2/18 - - - 1/0 - - -|89/10/4/1
+1029|115/64|0|53/30/1590 21/15/1407 24/8/672 10/5/430 3/2/360 0 2/2/46 1/1/8 1/1/106|74/16/0/0/0 26/9/1/1/0 0/0/0/0/0|210/100|104/81/18 6/3/36 9/8/78 - - - 8/6/15 7/6/32 4/4/20 - 4/3/33 5/3/83 5/4/20 -|2/25 1/0 - - - 1/0 - - 1/64 - - - - -|74/5/1/0
+1030|122/74|419990|50/25/800 26/20/1248 22/13/572 18/12/1242 1/1/263 0 0 2/1/6 3/2/206|74/21/0/0/0 34/15/2/2/1 1/0/0/0/0|254/109|97/84/15 6/5/20 16/13/10 6/5/10 - 4/1/74 6/4/40 - 5/3/22 - - 9/8/7 9/9/35 9/4/42|- - 1/0 1/131 1/13 5/92 1/93 2/41 - - - - 1/7 -|85/3/0/0
+1031|78/51|0|29/13/1073 30/26/2160 11/6/264 2/1/34 0 0 0 3/2/132 3/3/75|54/20/0/0/0 10/3/1/0/0 2/0/0/0/0|173/67|73/51/18 3/3/19 9/7/30 - 7/4/179 - - - 4/4/26 4/2/63 - 8/5/19 3/3/29 7/3/15|1/0 3/0 3/92 - - - - 1/29 - - 2/9 - - -|48/7/0/0
+1101|121/76|0|80/45/1840 27/23/2295 2/1/30 5/4/205 3/3/198 0 2/0/0 1/0/1 1/0/8|98/31/0/0/0 10/4/0/0/0 1/0/0/0/0|257/109|115/88/18 6/5/20 15/13/17 8/5/30 14/7/29 4/2/74 - 5/3/29 4/1/82 - - 6/4/81 4/4/10 5/3/11|- 2/31 - 1/18 - - 2/42 - 3/0 1/20 1/0 - - -|92/13/3/1
+1102|161/104|0|41/26/1435 55/31/2035 11/5/88 10/5/110 2/2/54 32/29/42 3/2/66 0 7/4/117|103/43/1/0/0 39/15/0/0/0 1/0/0/0/0|263/143|107/79/12 11/10/31 14/12/25 5/3/4 16/8/44 8/2/232 - 3/3/7 3/3/37 - 19/19/1 2/2/61 2/2/97 1/2/3 2/2/124 6/6/42 4/4/11 -|19/1 9/5 1/4 - - - - - 1/0 1/0 - - - - 1/21 10/1 - - - - -|78/7/0/0
+1103|262/136|0|55/28/689 57/36/1653 11/6/297 9/3/333 4/3/200 112/54/116 8/3/0 3/2/174 3/1/46|205/71/0/0/0 34/17/1/1/0 2/0/0/0/0|357/241|95/73/10 12/11/12 14/12/17 6/4/18 1/1/0 4/3/14 16/14/2 3/2/11 - - 3/3/1 6/6/19 6/6/63 1/1/16 - 5/5/90 11/10/3 21/20/0|3/1 3/3 1/0 13/0 12/7 3/76 1/0 - 3/0 1/0 - - - - 17/0 - 9/1 2/89 - 1/27 2/0|105/5/1/2
+1104|155/75|0|72/35/2592 48/24/2016 10/1/0 10/7/320 2/1/178 0 6/4/60 3/1/360 4/2/133|112/29/0/0/0 21/7/0/0/0 2/2/0/0/0|294/135|102/81/8 13/13/42 19/12/44 8/7/15 5/3/81 8/4/53 3/2/0 2/2/8 1/1/22 - 5/4/0 4/4/125 13/6/53 3/3/15 39/3/151 7/4/100 6/6/3 -|4/0 2/28 - 1/0 - 3/8 2/0 - - 1/0 - - - - - 1/13 - 1/0 5/52 1/0 -|109/5/2/1
+1105|153/76|0|48/31/1104 61/33/3721 20/2/20 7/3/161 3/3/240 0 2/0/0 0 12/4/162|106/33/0/0/0 29/6/0/0/0 0/0/0/0/0|262/135|99/77/12 12/9/42 18/13/19 4/3/100 11/5/62 9/3/71 4/3/20 3/2/26 5/5/2 - 1/1/10 1/1/124 9/7/34 - 1/1/9 8/7/62 6/5/0 -|1/10 5/70 - 2/0 - 3/55 3/104 1/7 - - - - - - - - - 2/0 - 2/5 1/0|92/6/2/2
+1106|171/98|0|62/34/806 62/50/3658 20/3/60 8/2/8 0 5/2/52 8/5/336 0 6/2/57|120/36/1/1/0 26/6/0/0/0 1/0/0/0/0|351/147|130/95/10 26/20/25 17/12/19 8/6/18 13/4/69 1/1/72 3/3/24 10/8/21 6/5/40 1/1/25 2/2/32 5/6/25 4/3/42 7/6/14 2/2/0 6/6/2 1/1/0 2/1/12|- 9/0 - 1/0 - 2/168 1/0 - - - - - - - - 1/2 - 1/0 - - 2/47|95/9/1/0
+1107|152/88|0|49/22/1225 83/54/4067 2/0/2 6/5/756 3/2/309 1/1/0 4/1/104 1/0/0 3/3/218|125/54/3/1/0 11/7/1/0/0 4/1/0/0/0|326/140|114/94/17 17/12/23 27/19/24 5/4/20 3/3/4 4/1/83 6/3/31 9/7/19 1/1/78 - - 12/9/19 8/8/41 6/5/35 3/3/12 11/10/39 1/1/5 -|- 2/0 3/0 3/2 - 1/1 3/51 - 1/59 2/0 - - - - - 2/53 - - 1/14 1/0 -|107/13/3/0
+</script>
+<script type="text/plain" id="igData">
+1001|126/43/3/0/3/1
+1002|132/52/2/0/0/0
+1003|51/33/0/1/3/0
+1004|35/11/1/0/5/0
+1005|2669/1917/33/23/120/92
+1006|5149/3643/64/44/213/200
+1007|4460/2893/42/37/209/197
+1008|5359/3449/53/32/209/233
+1009|5669/4344/50/30/254/224
+1010|5999/4482/40/28/227/231
+1011|2586/1702/16/10/71/85
+1012|8411/5477/120/66/322/359
+1013|9808/6453/136/55/327/377
+1014|8432/5503/128/48/306/352
+1015|11085/6788/748/75/391/275
+1016|6940/4496/200/59/181/162
+1017|7530/4975/133/45/199/226
+1018|6866/5068/90/34/157/224
+1019|7819/5568/140/50/177/236
+1020|7239/5118/108/41/188/248
+1021|5281/3581/159/41/174/184
+1022|5184/3578/87/41/165/184
+1023|5081/3401/89/25/131/153
+1024|5175/3692/58/28/169/198
+1025|4854/3545/87/22/128/184
+1026|6610/5052/78/30/175/246
+1027|4602/3373/57/21/130/206
+1028|4823/3477/50/29/151/187
+1029|3761/2753/64/39/92/137
+1030|4196/2781/123/40/96/118
+1031|2329/1619/70/23/56/95
+1101|2214/1565/22/3/15/94
+1102|1619/1005/104/5/22/50
+1103|2500/1520/143/3/18/58
+1104|2532/1796/62/6/25/89
+1105|4107/2732/108/46/107/125
+1106|4516/3047/124/35/106/155
+1107|3473/2422/73/30/95/116
+
+</script>
+<script type="text/plain" id="metaData">
+1001|0/0/0 0/0/0 0/0/0 0/0/0
+1002|0/0/0 0/0/0 0/0/0 0/0/0
+1003|0/0/0 0/0/0 0/0/0 0/0/0
+1004|0/0/0 0/0/0 0/0/0 0/0/0
+1005|4518/90/96 0/0/0 0/0/0 0/0/0
+1006|9414/165/178 1012/11/18 1324/0/0 0/0/0
+1007|7647/145/156 1441/24/36 3150/0/0 0/0/0
+1008|8088/168/177 1385/32/43 3500/0/10 0/0/0
+1009|8175/183/199 1026/24/27 2125/0/5 0/0/0
+1010|7605/184/198 891/28/37 799/0/4 0/0/0
+1011|2259/53/55 712/25/31 659/0/1 0/0/0
+1012|8725/255/265 1605/61/89 2883/0/19 0/0/0
+1013|7445/272/282 1300/52/66 3354/0/43 0/0/0
+1014|6946/239/248 1395/63/79 3037/0/25 0/0/0
+1015|6582/193/202 1423/55/68 2434/0/32 0/0/0
+1016|5561/102/112 1077/41/56 2024/0/23 0/0/0
+1017|8582/119/126 1217/57/66 2906/0/43 0/0/0
+1018|7742/111/115 1517/73/97 2950/0/32 0/0/0
+1019|8410/126/135 1345/64/88 3075/0/29 0/0/0
+1020|6743/149/151 1412/79/97 2241/0/22 0/0/0
+1021|3351/119/127 1096/55/62 1048/0/8 0/0/0
+1022|3316/129/137 1026/42/48 969/0/14 0/0/0
+1023|3540/101/106 941/32/45 1011/0/12 0/0/0
+1024|4064/134/133 1402/49/63 978/0/14 0/0/0
+1025|3411/112/110 1246/37/53 1288/0/27 0/0/0
+1026|3744/135/138 2074/62/96 1060/0/12 0/0/0
+1027|3478/111/111 1250/57/83 1228/0/18 0/0/0
+1028|3658/123/132 1170/38/60 1023/0/18 0/0/0
+1029|3870/69/89 994/42/59 994/0/8 0/0/0
+1030|3295/53/77 1002/36/61 847/0/4 0/0/0
+1031|2823/49/70 986/22/30 554/0/19 0/0/0
+1101|0/0/0 1562/73/94 1210/0/12 0/0/0
+1102|0/0/0 779/25/41 1198/0/19 590/31/12
+1103|0/0/0 1158/37/50 1174/0/27 2683/135/70
+1104|0/0/0 1616/58/83 1025/0/23 1842/89/54
+1105|2491/76/115 1104/41/51 905/0/14 1924/83/58
+1106|2385/59/91 1386/50/73 753/0/54 2301/103/57
+1107|2269/65/93 1113/38/54 732/0/20 1438/67/36
+
+</script>
+<script type="application/json" id="postData">[["1001", "Adelantamos la Semana de Descuentos", 712], ["1029", "Esta Navidad, transforma tu manera de recibir (colab heritageatable)", 1908], ["1029", "Un horno que se adapta a tu forma de cocinar", 140], ["1026", "Tecnología que se integra a tu cocina y se…", 358], ["1023", "Horno o AirFryer? Por qué elegir", 379], ["1022", "Y si tu encimera también pudiera encargarse…", 339], ["1021", "Cuando el diseño y la funcionalidad…", 367], ["1020", "Las mejores ideas nacen cuando nos reunimos a… (colab ixinachile)", 1735], ["1019", "Una noche para compartir, conectar y seguir…", 559], ["1017", "Así vivimos una gran jornada en hbt Puerto… (colab hbtoficial)", 2031], ["1017", "Renovar tu cocina también es ganar espacio,…", 323], ["1016", "Así vivimos la inauguración de Casa Bosch en…", 365], ["1015", "SORTEO", 7971], ["1012", "El confort también puede estar conectado", 16424], ["1007", "Última llamada", 609], ["1006", "Tu casa también puede pedir un cambio", 502], ["1006", "Si estabas esperando una señal para renovar,…", 470], ["1002", "Algo está por comenzar", 507], ["1001", "Historia", 22], ["1030", "Historia", 45], ["1030", "Historia", 293], ["1030", "Historia", 219], ["1029", "Historia", 39], ["1027", "Historia", 43], ["1022", "Historia", 21], ["1022", "Historia", 24], ["1022", "Historia", 27], ["1020", "Historia", 39], ["1019", "Historia", 44], ["1016", "Historia", 44], ["1015", "Historia", 204], ["1015", "Historia", 50], ["1015", "Historia", 54], ["1015", "Historia", 53], ["1015", "Historia", 54], ["1015", "Historia", 60], ["1015", "Historia", 66], ["1015", "Historia", 85], ["1014", "Historia", 31], ["1014", "Historia", 47], ["1013", "Historia", 28], ["1013", "Historia", 45], ["1012", "Historia", 63], ["1008", "Historia", 23], ["1008", "Historia", 29], ["1007", "Historia", 25], ["1006", "Historia", 34], ["1002", "Historia", 13], ["1001", "Historia", 21], ["1001", "Historia", 27]]</script>
+<script>
+
+const $=id=>document.getElementById(id);
+const nf=n=>n.toLocaleString('es-CL');
+const cv=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const dec=n=>String(n).replace('.',',');
+function hbars(id,rows,opt={}){const max=opt.max||Math.max(...rows.map(r=>r.v));
+ $(id).innerHTML=rows.map(r=>`<div class="hrow"><span class="hn" title="${r.l}">${r.l}</span><div class="ht"><div class="hf" style="width:${(r.v/max*100).toFixed(1)}%;${r.c?'background:'+r.c:''}"></div></div><span class="hv">${opt.fmt?opt.fmt(r.v):nf(r.v)}${r.s?'<small>'+r.s+'</small>':''}</span></div>`).join('');}
+function todo(key){const boxes=[...document.querySelectorAll('.todo input')];if(!boxes.length)return;
+ let saved=[];try{saved=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}
+ boxes.forEach((b,i)=>{b.checked=!!saved[i];b.onchange=upd;});
+ function upd(){const st=boxes.map(b=>b.checked),n=st.filter(Boolean).length;
+  if($('pbar'))$('pbar').style.width=(n/boxes.length*100)+'%';if($('ptxt'))$('ptxt').textContent=`${n} de ${boxes.length} hechas`;
+  try{localStorage.setItem(key,JSON.stringify(st))}catch(e){}}
+ upd();}
+function toggleTheme(){const r=document.documentElement,a=r.getAttribute('data-theme');
+ const dark=a?a==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.setAttribute('data-theme',dark?'light':'dark');renderAll();}
+const body=document.body;
+function menu(o){body.classList.toggle('open',o);$('burger').setAttribute('aria-expanded',o);}
+$('burger').onclick=()=>menu(!body.classList.contains('open'));
+$('scrim').onclick=()=>menu(false);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')menu(false)});
+function show(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on',p.id===id));
+ document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.p===id));
+ $('cur').textContent=$(id).dataset.t;menu(false);
+ if(window.scrollY>200)window.scrollTo({top:document.querySelector('.content').offsetTop-70,behavior:'smooth'});
+}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>show(b.dataset.p));
+
+
+function daily(){
+ const d=[['18',200],['19',165],['20',220],['21',120],['22',140],['23',118],['24',108],['25',95]];
+ const W=820,H=230,pl=40,pr=16,pt=26,pb=30,max=250,X=i=>pl+i*(W-pl-pr)/(d.length-1),Y=v=>pt+(H-pt-pb)*(1-v/max);
+ let s=`<defs><linearGradient id="gd" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${cv('--sky')}" stop-opacity=".45"/><stop offset="1" stop-color="${cv('--sky')}" stop-opacity="0"/></linearGradient></defs>`;
+ [0,50,100,150,200,250].forEach(t=>{s+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(t)}" y2="${Y(t)}" stroke="${cv('--line')}"/><text x="${pl-8}" y="${Y(t)+4}" font-size="11" text-anchor="end" fill="${cv('--mut')}">${t}</text>`;});
+ const pts=d.map(([_,v],i)=>`${X(i)},${Y(v)}`).join(' ');
+ s+=`<rect x="${X(3)}" y="${Y(140)}" width="${X(7)-X(3)}" height="${Y(95)-Y(140)}" fill="${cv('--ice')}" rx="6"/><text x="${(X(3)+X(7))/2}" y="${Y(140)-8}" font-size="11.5" text-anchor="middle" fill="${cv('--ink2')}">entre 95 y 140 por día</text>`;
+ s+=`<polygon points="${X(0)},${Y(0)} ${pts} ${X(7)},${Y(0)}" fill="url(#gd)"/><polyline points="${pts}" fill="none" stroke="${cv('--navy')}" stroke-width="3.5" stroke-linejoin="round"/>`;
+ d.forEach(([l,v],i)=>{s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${i===2?7:4.5}" fill="${i===2?cv('--navy'):cv('--surface')}" stroke="${cv('--navy')}" stroke-width="3"/><text x="${X(i)}" y="${H-8}" font-size="12" text-anchor="middle" fill="${cv('--ink2')}">${l} oct</text>`;});
+ s+=`<text x="${X(2)}" y="${Y(220)-14}" font-size="12" font-weight="700" text-anchor="middle" fill="${cv('--ink')}">Pico 20/10</text>`;
+ $('daily').innerHTML=s;}
+function funnelR(){
+ const r=[['Inician sesión',1028,'100%'],['Ven un producto',248,'24,1% del total'],['Agregan al carrito',19,'7,7% de los que ven'],['Inician la compra',5,'26,3% de los carritos'],['Compran',0,'ninguno']];
+ const W=440,h=46,g=12,cx=315;let s='';const w=[240,160,96,70,56],cols=[cv('--navy'),'#1F5C96','#3C7DB8',cv('--sky'),cv('--bad')];
+ r.forEach(([n,v,p],i)=>{const y=i*(h+g)+8,ww=w[i];
+  s+=`<text x="0" y="${y+20}" font-size="13.5" font-weight="600" fill="${cv('--ink')}">${n}</text><text x="0" y="${y+38}" font-size="12" fill="${cv('--mut')}">${p}</text>`;
+  s+=`<rect x="${cx-ww/2}" y="${y}" width="${ww}" height="${h}" rx="10" fill="${cols[i]}"/>`;
+  s+=`<text x="${cx}" y="${y+30}" text-anchor="middle" font-family="Montserrat, Segoe UI, sans-serif" font-weight="800" font-size="19" fill="#fff">${nf(v)}</text>`;
+  if(i<4)s+=`<line x1="${cx}" x2="${cx}" y1="${y+h}" y2="${y+h+g}" stroke="${cv('--line')}" stroke-width="2"/>`;});
+ $('fun').innerHTML=s;}
+function lineMeta(){
+ const d=[['Engagement',39,cv('--sky')],['Tráfico',22,cv('--ok')],['Remarketing',140,cv('--bad')]];
+ const W=520,pl=110,max=160;let s='';const X=v=>pl+v/max*(W-pl-60);
+ [0,40,80,120,160].forEach(t=>{s+=`<line x1="${X(t)}" x2="${X(t)}" y1="6" y2="170" stroke="${cv('--line')}"/><text x="${X(t)}" y="190" font-size="11" text-anchor="middle" fill="${cv('--mut')}">$${t}</text>`;});
+ d.forEach(([n,v,c],i)=>{const y=20+i*52;s+=`<text x="0" y="${y+20}" font-size="13" font-weight="600" fill="${cv('--ink')}">${n}</text><rect x="${pl}" y="${y}" width="${X(v)-pl}" height="30" rx="8" fill="${c}"/><text x="${X(v)+8}" y="${y+21}" font-family="Montserrat, Segoe UI, sans-serif" font-weight="800" font-size="15" fill="${cv('--ink')}">$${v}</text>`;});
+ s+=`<text x="${W}" y="208" font-size="11" text-anchor="end" fill="${cv('--mut')}">costo por clic, CLP</text>`;
+ $('cpcMeta').innerHTML=s;}
+function gw(){
+ const d=[['S1 · 5–11',92930,1256],['S2 · 12–18',191210,302],['S3 · 19–25',117614,530]];
+ const W=520,H=240,pl=56,pr=56,pt=24,pb=34,mi=200000,mc=1400,bw=90;let s='';
+ const X=i=>pl+(i+.5)*(W-pl-pr)/3,Y=v=>pt+(H-pt-pb)*(1-v/mi),Yc=v=>pt+(H-pt-pb)*(1-v/mc);
+ [0,50000,100000,150000,200000].forEach(t=>{s+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(t)}" y2="${Y(t)}" stroke="${cv('--line')}"/><text x="${pl-8}" y="${Y(t)+4}" font-size="10.5" text-anchor="end" fill="${cv('--mut')}">$${t/1000}k</text>`;});
+ [0,700,1400].forEach(t=>{s+=`<text x="${W-pr+8}" y="${Yc(t)+4}" font-size="10.5" fill="${cv('--mut')}">$${nf(t)}</text>`;});
+ d.forEach(([l,v,c],i)=>{s+=`<rect x="${X(i)-bw/2}" y="${Y(v)}" width="${bw}" height="${Y(0)-Y(v)}" rx="10" fill="${cv('--sky')}" opacity=".75"/><text x="${X(i)}" y="${Y(0)-10}" font-size="11.5" font-weight="600" text-anchor="middle" fill="${cv('--ink')}">$${nf(v)}</text><text x="${X(i)}" y="${H-10}" font-size="12" text-anchor="middle" fill="${cv('--ink2')}">${l}</text>`;});
+ s+=`<polyline points="${d.map((r,i)=>X(i)+','+Yc(r[2])).join(' ')}" fill="none" stroke="${cv('--navy')}" stroke-width="3.5"/>`;
+ d.forEach(([l,v,c],i)=>{s+=`<circle cx="${X(i)}" cy="${Yc(c)}" r="6" fill="${cv('--surface')}" stroke="${cv('--navy')}" stroke-width="3"/><rect x="${X(i)-40}" y="${Yc(c)-34}" width="80" height="22" rx="6" fill="${cv('--surface')}" stroke="${cv('--line')}"/><text x="${X(i)}" y="${Yc(c)-19}" font-size="12" font-weight="700" text-anchor="middle" fill="${cv('--ink')}">CPC $${nf(c)}</text>`;});
+ $('gw').innerHTML=s;}
+function bud(){
+ const r=78,c=2*Math.PI*r,a=605685/1083500,g=407337/1083500;let s='';
+ s+=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="${cv('--line')}" stroke-width="28"/>`;
+ s+=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="${cv('--navy')}" stroke-width="28" stroke-dasharray="${g*c} ${c}" transform="rotate(-90 100 100)"/>`;
+ s+=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="#E8A945" stroke-width="28" stroke-dasharray="${(a-g)*c} ${c}" stroke-dashoffset="${-g*c}" transform="rotate(-90 100 100)"/>`;
+ const ang=.81*2*Math.PI-Math.PI/2;s+=`<line x1="${100+60*Math.cos(ang)}" y1="${100+60*Math.sin(ang)}" x2="${100+97*Math.cos(ang)}" y2="${100+97*Math.sin(ang)}" stroke="${cv('--bad')}" stroke-width="3"/>`;
+ s+=`<text x="100" y="100" text-anchor="middle" font-family="Montserrat, Segoe UI, sans-serif" font-weight="800" font-size="30" fill="${cv('--ink')}">56%</text><text x="100" y="120" text-anchor="middle" font-size="11.5" fill="${cv('--mut')}">consumido</text>`;
+ $('bud').innerHTML=s;
+ $('budLeg').innerHTML=`<div><i style="background:var(--navy)"></i><span>Google</span><b>$407.337</b></div><div><i style="background:#E8A945"></i><span>Meta</span><b>$198.348</b></div><div><i style="background:var(--line)"></i><span>Remanente</span><b>$477.815</b></div><div><i style="background:var(--bad);height:3px"></i><span>Mes transcurrido</span><b>81%</b></div>`;}
+function igGoals(){
+ const G=[['Seguidores',3754,3235,nf,'ok','116%'],['Visualizaciones',130433,55405,nf,'ok','235%'],['Interacciones',2600,2770,nf,'mid','94%'],['Tasa de engagement',2.0,5,v=>dec(v.toFixed(1))+'%','bad','40%']];
+ $('igGoals').innerHTML=G.map(([n,v,t,f,st,p])=>{const pct=Math.min(v/t*100,100),over=v>t;
+  return `<div class="goal ${st==='ok'?'':st}"><div><div class="gn">${n}</div><div class="ga">Objetivo ${f(t)}</div></div>
+  <div class="trk"><div class="bg"></div><div class="fg" style="width:${pct}%"></div><div class="now" style="left:${pct}%"></div><div class="tg"></div>
+  <span class="v0" style="left:${Math.min(pct,74)}%;transform:translateX(-50%)">${f(v)}${over?' · superado':''}</span>${over?'':`<span class="v1">${f(t)}</span>`}</div>
+  <span class="pill p-${st}">${p} del objetivo</span></div>`;}).join('');}
+function renderS4(){
+ daily();funnelR();lineMeta();gw();bud();igGoals();
+ hbars('sources',[{l:'Instagram pago',v:508,s:'23 s'},{l:'Google pago',v:272,s:'56 s'},{l:'Directo',v:204,s:'50 s'},{l:'Google orgánico',v:59,s:'1 min'},{l:'Itaú beneficios',v:35,s:'1 min 42 s'},{l:'Facebook (referido)',v:30,s:'0 s'},{l:'Facebook pago',v:23,s:'8 s'},{l:'ChatGPT',v:6,s:'10 s'}]);
+ hbars('landing',[{l:'Robot de cocina MUM2',v:19,s:'11 s'},{l:'Lavavajillas Bosch Serie 2',v:16,s:'10 s'},{l:'Aire portátil Noblex',v:12,s:'1 min 12 s',c:'var(--ok)'},{l:'Hervidor Bosch',v:8,s:'13 s'},{l:'Horno Bosch 60 cm',v:4,s:'51 s'},{l:'Horno eléctrico Atma',v:4,s:'7 min 39 s'},{l:'Lavavajillas Predicta',v:4,s:'23 s'}]);
+ hbars('pages',[{l:'Home',v:2964,s:'16 s'},{l:'Hornos y microondas',v:405},{l:'Lavavajillas',v:287},{l:'Buscador',v:282},{l:'Marca Bosch',v:237,s:'44 s'},{l:'Todos los productos',v:234},{l:'Electro de cocina',v:166},{l:'Refrigeradores',v:147}]);
+ hbars('ages',[{l:'55 a 64',v:58},{l:'25 a 34',v:49},{l:'45 a 54',v:46},{l:'35 a 44',v:32},{l:'65 o más',v:26}]);
+ hbars('regions',[{l:'Región Metropolitana',v:655,s:'79%'},{l:'Valparaíso',v:55},{l:'Biobío',v:11},{l:'Araucanía',v:7}]);
+ hbars('topPosts',[{l:'Adelantamos la Semana de descuentos',v:678,s:'1/10'},{l:'Última llamada, hoy termina',v:582,s:'7/10'},{l:'Una noche para compartir (evento)',v:500,s:'19/10'},{l:'Algo está por comenzar',v:484,s:'2/10'},{l:'Tu casa también puede pedir un cambio',v:477,s:'6/10'}]);
+ hbars('creas',[{l:'Batidora Bosch',v:322,s:'$28 por clic'},{l:'Reel cafetera (apagado)',v:175,s:'$43 por clic'},{l:'Aire acondicionado',v:99,s:'$66 por clic'}]);
+}
+
+
+/* ---------- datos diarios (GA4 e Instagram) ---------- */
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const DTXT=document.getElementById('dailyData').textContent.trim().split('\n');
+const PATHS=DTXT[0].slice(2).split(' '), LANDS=DTXT[1].slice(2).split(' ');
+const DAY={};
+DTXT.slice(2).forEach(l=>{const p=l.split('|');const n=s=>s.split('/').map(Number);
+ DAY[p[0]]={t:n(p[1]),rev:+p[2],s:p[3].split(' ').map(x=>x==='0'?[0,0,0]:n(x)),f:p[4].split(' ').map(n),pv:n(p[5]),
+  pg:p[6].split(' ').map(x=>x==='-'?null:n(x)),ln:p[7].split(' ').map(x=>x==='-'?null:n(x)),rg:n(p[8])};});
+const IG={};document.getElementById('igData').textContent.trim().split('\n').forEach(l=>{const p=l.split('|');IG[p[0]]=p[1].split('/').map(Number);});
+const POSTS=JSON.parse(document.getElementById('postData').textContent);
+const ALLD=Object.keys(DAY).sort((a,b)=>key(a)-key(b));
+function key(d){return (d.slice(0,2)==='11'?100:0)+ +d.slice(2)}
+const dlab=d=>`${+d.slice(2)} ${MES[+d.slice(0,2)-1]}`;
+const iso=d=>`2026-${d.slice(0,2)}-${d.slice(2)}`;
+const fromIso=s=>s.slice(5,7)+s.slice(8,10);
+const pct=(a,b,dg=0)=>b?(a/b*100).toLocaleString('es-CL',{maximumFractionDigits:dg,minimumFractionDigits:dg})+'%':'–';
+const tfmt=s=>{s=Math.round(s);return s>=60?`${Math.floor(s/60)} min ${String(s%60).padStart(2,'0')} s`:`${s} s`};
+const money=n=>'$'+nf(Math.round(n));
+const TC=985;const usd=n=>{const v=n/TC;return 'USD '+(v<10?v.toLocaleString('es-CL',{minimumFractionDigits:2,maximumFractionDigits:2}):nf(Math.round(v)))};const moneyU=n=>n?money(n)+' <small class="usd">'+usd(n)+'</small>':money(n);
+
+const MONTHS={'10':{id:'m10',l:'Octubre',r:'1–31 oct',a:'1001',b:'1031'},'11':{id:'m11',l:'Noviembre',r:'1–7 nov',a:'1101',b:'1107'}};
+const WEEKS=[
+ {id:'s1',m:'10',l:'Semana 1',r:'1–4 oct',a:'1001',b:'1004'},
+ {id:'s2',m:'10',l:'Semana 2',r:'5–11 oct',a:'1005',b:'1011'},
+ {id:'s3',m:'10',l:'Semana 3',r:'12–18 oct',a:'1012',b:'1018'},
+ {id:'s4',m:'10',l:'Semana 4',r:'19–25 oct',a:'1019',b:'1025',rep:'s4'},
+ {id:'s5',m:'10',l:'Semana 5',r:'25 oct–1 nov',a:'1025',b:'1101',rep:'s5'},
+ {id:'s6',m:'11',l:'Semana 1',r:'1–7 nov',a:'1101',b:'1107',rep:'s6'}];
+
+/* ---------- gráficos genéricos ---------- */
+function lineDays(id,labels,vals){
+ const n=vals.length,W=820,H=230,pl=40,pr=16,pt=26,pb=30;
+ const mx=Math.max(...vals,1),step=mx>200?100:mx>100?50:mx>40?20:10,max=Math.ceil(mx*1.25/step)*step;
+ const X=i=>n<2?(pl+W-pr)/2:pl+i*(W-pl-pr)/(n-1),Y=v=>pt+(H-pt-pb)*(1-v/max);
+ const pk=vals.indexOf(mx);const every=n>16?Math.ceil(n/12):1;
+ let s=`<defs><linearGradient id="g${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${cv('--sky')}" stop-opacity=".45"/><stop offset="1" stop-color="${cv('--sky')}" stop-opacity="0"/></linearGradient></defs>`;
+ for(let t=0;t<=max;t+=step)s+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(t)}" y2="${Y(t)}" stroke="${cv('--line')}"/><text x="${pl-8}" y="${Y(t)+4}" font-size="11" text-anchor="end" fill="${cv('--mut')}">${t}</text>`;
+ const pts=vals.map((v,i)=>`${X(i)},${Y(v)}`).join(' ');
+ if(n>1)s+=`<polygon points="${X(0)},${Y(0)} ${pts} ${X(n-1)},${Y(0)}" fill="url(#g${id})"/><polyline points="${pts}" fill="none" stroke="${cv('--navy')}" stroke-width="3.5" stroke-linejoin="round"/>`;
+ vals.forEach((v,i)=>{const p=i===pk;s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="${p?7:(n>20?3:4.5)}" fill="${p?cv('--navy'):cv('--surface')}" stroke="${cv('--navy')}" stroke-width="3"><title>${labels[i]}: ${v}</title></circle>`;
+  if(i%every===0)s+=`<text x="${X(i)}" y="${H-8}" font-size="12" text-anchor="middle" fill="${cv('--ink2')}">${labels[i]}</text>`;});
+ s+=`<text x="${X(pk)}" y="${Y(mx)-14}" font-size="12" font-weight="700" text-anchor="middle" fill="${cv('--ink')}">Pico ${labels[pk]} · ${mx}</text>`;
+ $(id).innerHTML=s;}
+function funnelChart(id,r){
+ const h=46,g=12,cx=315;let s='';const w=[240,160,96,70,56],cols=[cv('--navy'),'#1F5C96','#3C7DB8',cv('--sky'),r[4][1]>0?cv('--ok'):cv('--bad')];
+ r.forEach(([n,v,p],i)=>{const y=i*(h+g)+8,ww=w[i];
+  s+=`<text x="0" y="${y+20}" font-size="13.5" font-weight="600" fill="${cv('--ink')}">${n}</text><text x="0" y="${y+38}" font-size="12" fill="${cv('--mut')}">${p}</text>`;
+  s+=`<rect x="${cx-ww/2}" y="${y}" width="${ww}" height="${h}" rx="10" fill="${cols[i]}"/>`;
+  s+=`<text x="${cx}" y="${y+30}" text-anchor="middle" font-family="Montserrat, Segoe UI, sans-serif" font-weight="800" font-size="19" fill="#fff">${nf(v)}</text>`;
+  if(i<4)s+=`<line x1="${cx}" x2="${cx}" y1="${y+h}" y2="${y+h+g}" stroke="${cv('--line')}" stroke-width="2"/>`;});
+ $(id).innerHTML=s;}
+function goalsChart(id,G){
+ $(id).innerHTML=G.map(([n,v,t,f,st,p,b=0])=>{const pc=Math.max(Math.min((v-b)/(t-b)*100,100),0),over=v>t;
+  return `<div class="goal ${st==='ok'?'':st}"><div><div class="gn">${n}</div><div class="ga">Objetivo ${f(t)}</div></div>
+  <div class="trk"><div class="bg"></div><div class="fg" style="width:${pc}%"></div><div class="now" style="left:${pc}%"></div><div class="tg"></div>
+  <span class="v0" style="left:${Math.min(pc,74)}%;transform:translateX(-50%)">${f(v)}${over?' · superado':''}</span>${over?'':`<span class="v1">${f(t)}</span>`}</div>
+  <span class="pill p-${st}">${p} del objetivo</span></div>`;}).join('');}
+
+/* ---------- reporte semana 5 (25/10 al 1/11) ---------- */
+function renderS5(){
+ lineDays('daily5',['25 oct','26 oct','27 oct','28 oct','29 oct','30 oct','31 oct','1 nov'],[94,165,144,125,115,122,78,121]);
+ funnelChart('fun5',[['Inician sesión',814,'100%'],['Ven un producto',225,'27,6% del total'],['Agregan al carrito',8,'3,6% de los que ven'],['Inician la compra',5,'62,5% de los carritos'],['Compran',1,'20% de los que inician']]);
+ goalsChart('igGoals5',[['Seguidores',3958,3235,nf,'ok','122%'],['Visualizaciones',158261,55405,nf,'ok','286%'],['Interacciones',3029,2770,nf,'ok','109%'],['Tasa de engagement',1.9,5,v=>dec(v.toFixed(1))+'%','bad','38%']]);
+ hbars('sources5',[{l:'Instagram pago',v:481,s:'24 s'},{l:'Google pago',v:227,s:'1 min 10 s'},{l:'Directo',v:127,s:'39 s'},{l:'Google orgánico',v:70,s:'1 min 05 s'},{l:'Facebook pago',v:12,s:'38 s'},{l:'Itaú beneficios',v:12,s:'1 min 40 s'},{l:'ChatGPT',v:11,s:'19 s'}]);
+ hbars('landing5',[{l:'Hervidor Bosch',v:15,s:'13 s'},{l:'Lavavajillas Predicta 14 cubiertos',v:9,s:'1 min 13 s',c:'var(--ok)'},{l:'Lavavajillas Bosch Serie 2 inox',v:8,s:'34 s'},{l:'Robot de cocina MUM2',v:7,s:'7 s'},{l:'Aire portátil Noblex',v:6,s:'27 s'},{l:'Lavavajillas Bosch Serie 2 blanco',v:6}]);
+ hbars('pages5',[{l:'Home',v:854,s:'18 s'},{l:'Hornos y microondas',v:102},{l:'Lavavajillas',v:74},{l:'Marca Bosch',v:56,s:'1 min 08 s'},{l:'Electro de cocina',v:56},{l:'Buscador',v:53},{l:'Lavavajillas Bosch Serie 2',v:41},{l:'Todos los productos',v:38}]);
+ hbars('ages5',[{l:'25 a 34',v:46},{l:'45 a 54',v:39},{l:'55 a 64',v:35},{l:'65 o más',v:32},{l:'35 a 44',v:18}]);
+ hbars('regions5',[{l:'Región Metropolitana',v:649,s:'80%'},{l:'Valparaíso',v:81},{l:'Biobío',v:13}]);
+ hbars('topPosts5',[{l:'Masterclass de Navidad (colab Heritage à Table)',v:1908,s:'29/10'},{l:'Reel lavavajillas Bosch Serie 6',v:358,s:'26/10'},{l:'Historia',v:293,s:'30/10'},{l:'Historia',v:219,s:'30/10'},{l:'Carrusel horno Bosch Serie 4',v:140,s:'29/10'}]);
+ cpcChart('cpcMeta5',[['Engagement',38,cv('--sky')],['Tráfico',22,cv('--ok')],['Remarketing',132,cv('--bad')]]);
+ budChart('bud5','budLeg5',407337,235170,1083500);
+}
+function renderS6(){
+ lineDays('daily6',['1 nov','2 nov','3 nov','4 nov','5 nov','6 nov','7 nov'],[121,161,262,155,153,171,152]);
+ funnelChart('fun6',[['Inician sesión',1037,'100%'],['Ven un producto',361,'34,8% del total'],['Agregan al carrito',7,'1,9% de los que ven'],['Inician la compra',3,'42,9% de los carritos'],['Compran',0,'0 de los que inician']]);
+ goalsChart('igGoals6',[['Seguidores',4083,4750,nf,'mid','16%',3958],['Visualizaciones',20961,189913,nf,'mid','11%'],['Espectadores',14087,114310,nf,'mid','12%'],['Interacciones',636,3635,nf,'mid','17%'],['Tasa de engagement',4.5,3,v=>dec(v.toFixed(1))+'%','ok','150%']]);
+ hbars('sources6',[{l:'Instagram pago',v:407,s:'24 s'},{l:'Google pago',v:393,s:'49 s'},{l:'Facebook (referido)',v:150,s:'1 s'},{l:'Directo',v:76,s:'7 s'},{l:'Google orgánico',v:55,s:'34 s'},{l:'Facebook pago',v:33,s:'17 s'},{l:'Itaú beneficios',v:17,s:'1 min 09 s'}]);
+ hbars('landing6',[{l:'Hervidor Bosch',v:27,s:'16 s'},{l:'Robot de cocina Bosch Serie 2',v:25,s:'1 s'},{l:'Aire portátil Noblex',v:18,s:'0 s'},{l:'Horno Bosch Serie 8 con vapor',v:18,s:'1 s'},{l:'Lavadora Bosch Serie 6',v:14,s:'9 s'},{l:'Cafetera empotrable Bosch Serie 8',v:12,s:'7 s'},{l:'Lavavajillas Predicta 14 cubiertos',v:11,s:'1 min 08 s'}]);
+ hbars('pages6',[{l:'Home',v:762,s:'13 s'},{l:'Lavavajillas',v:124},{l:'Hornos y microondas',v:97},{l:'Marca Bosch',v:63,s:'45 s'},{l:'Horno Bosch Serie 4',v:47,s:'1 min 07 s'},{l:'Buscador',v:44},{l:'Lavavajillas Bosch Serie 2 blanco',v:42},{l:'Lavavajillas Predicta 14 cubiertos',v:40}]);
+ hbars('ages6',[{l:'55 a 64',v:56},{l:'45 a 54',v:55},{l:'25 a 34',v:50},{l:'35 a 44',v:36},{l:'65 o más',v:32}]);
+ hbars('regions6',[{l:'Región Metropolitana',v:669,s:'64%'},{l:'Valparaíso',v:58},{l:'Biobío',v:12}]);
+ if(window.TOP6)hbars('topPosts6',TOP6);
+ cpcChart('cpcMeta6',[['Tráfico web',20,cv('--ok')],['Posteos perfil',24,cv('--sky')],['Interacción IG',38,cv('--sky')],['Remarketing',41,cv('--bad')]],'costo por clic, CLP');
+ budChart('bud6','budLeg6',83350,33638,684000);
+}
+function budChart(id,leg,g,m,T){
+ const r=78,c=2*Math.PI*r,a=(g+m)/T,gg=g/T;let s='';
+ s+=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="${cv('--line')}" stroke-width="28"/>`;
+ s+=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="${cv('--navy')}" stroke-width="28" stroke-dasharray="${gg*c} ${c}" transform="rotate(-90 100 100)"/>`;
+ s+=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="#E8A945" stroke-width="28" stroke-dasharray="${(a-gg)*c} ${c}" stroke-dashoffset="${-gg*c}" transform="rotate(-90 100 100)"/>`;
+ s+=`<text x="100" y="100" text-anchor="middle" font-family="Montserrat, Segoe UI, sans-serif" font-weight="800" font-size="30" fill="${cv('--ink')}">${Math.round(a*100)}%</text><text x="100" y="120" text-anchor="middle" font-size="11.5" fill="${cv('--mut')}">consumido</text>`;
+ $(id).innerHTML=s;
+ $(leg).innerHTML=`<div><i style="background:var(--navy)"></i><span>Google</span><b>${money(g)}</b></div><div><i style="background:#E8A945"></i><span>Meta</span><b>${money(m)}</b></div><div><i style="background:var(--line)"></i><span>Disponible</span><b>${money(T-g-m)}</b></div>`;}
+function cpcChart(id,d,lbl){
+ const W=520,pl=110,max=160,bt=20+d.length*52-6;let s='';const X=v=>pl+v/max*(W-pl-60);
+ [0,40,80,120,160].forEach(t=>{s+=`<line x1="${X(t)}" x2="${X(t)}" y1="6" y2="${bt}" stroke="${cv('--line')}"/><text x="${X(t)}" y="${bt+20}" font-size="11" text-anchor="middle" fill="${cv('--mut')}">$${t}</text>`;});
+ d.forEach(([n,v,c],i)=>{const y=20+i*52;s+=`<text x="0" y="${y+20}" font-size="13" font-weight="600" fill="${cv('--ink')}">${n}</text><rect x="${pl}" y="${y}" width="${X(v)-pl}" height="30" rx="8" fill="${c}"/><text x="${X(v)+8}" y="${y+21}" font-family="Montserrat, Segoe UI, sans-serif" font-weight="800" font-size="15" fill="${cv('--ink')}">$${v}</text>`;});
+  s+=`<text x="${W}" y="${bt+38}" font-size="11" text-anchor="end" fill="${cv('--mut')}">${lbl||'costo por clic en el enlace, CLP'}</text>`;
+ $(id).innerHTML=s;}
+
+/* ---------- vista de métricas (semanas sin reporte y personalizado) ---------- */
+const SRCN=['Instagram pago','Google pago','Directo','Google orgánico','Itaú beneficios','Facebook (referido)','Facebook pago','ChatGPT','Otras fuentes'];
+const PNAME={'/':'Home','/collection/hornos-y-microondas':'Hornos y microondas','/collection/lavavajillas':'Lavavajillas','/search':'Buscador','/brand/bosch':'Marca Bosch','/collection/todos-los-productos':'Todos los productos','/collection/electro-de-cocina':'Electro de cocina','/collection/refrigeradores-y-congeladores':'Refrigeradores','/collection/encimeras-y-placas':'Encimeras y placas','/collection/campanas':'Campanas','/product/robot-de-cocina-mum2-900w':'Robot de cocina MUM2','/product/lavavajillas-bosch-serie-2-sms25ai05e-60-cm-12-cubiertos-acero-inoxidable':'Lavavajillas Bosch Serie 2 inox','/product/lavavajillas-14-cubiertos-panelable-predicta-pdlvi014icl-negro':'Lavavajillas Predicta 14 cubiertos','/collection/lavarropas-y-secarropas':'Lavarropas y secarropas','/product/horno-empotrable-bosch-serie-4-hba514es3-60-cm-71-l-inox':'Horno Bosch Serie 4','/product/lavavajillas-bosch-serie-2-sms25aw05e-12-cubiertos-blanco':'Lavavajillas Bosch Serie 2 blanco','/collection/climatizacion':'Climatización','/collection/coccion-y-empotrables':'Cocción y empotrables'};
+const LNAME=['Robot de cocina MUM2','Hervidor Bosch','Lavavajillas Bosch Serie 2 inox','Aire portátil Noblex','Cafetera empotrable Bosch Serie 8','Lavavajillas Predicta 14 cubiertos','Lavavajillas Bosch Serie 2 blanco','Lavavajillas compacto Bosch Serie 6','Encimera inducción Predicta 5 zonas','Lavavajillas Bosch 6 cubiertos','Lavavajillas panelable Bosch Serie 6','Cafetera automática VeroCafe','Grill eléctrico Bosch','Aspiradora ProSilence Serie 8','Horno Bosch Serie 8 con vapor','Lavadora Bosch Serie 6','Refrigerador Bosch Serie 4','Congelador integrable Bosch Serie 6','Horno Bosch Serie 4','Cava de vinos Noblex','Encimera inducción Predicta 3 zonas'];
+function rangeDays(a,b){return ALLD.filter(d=>key(d)>=key(a)&&key(d)<=key(b))}
+function renderM(a,b,note){
+ const ds=rangeDays(a,b);if(!ds.length)return;
+ const sum=f=>ds.reduce((t,d)=>t+f(DAY[d]),0);
+ const ses=sum(x=>x.t[0]),eng=sum(x=>x.t[1]),rev=sum(x=>x.rev);
+ const F=[0,1,2,3,4].map(i=>sum(x=>x.f[0][i]+x.f[1][i]+x.f[2][i]));
+ const Fm=[0,1,2,3,4].map(i=>sum(x=>x.f[0][i])),Fd=[0,1,2,3,4].map(i=>sum(x=>x.f[1][i]));
+ const igd=ds.filter(d=>IG[d]);const igs=i=>igd.reduce((t,d)=>t+IG[d][i],0);
+ const per=a===b?dlab(a):`${dlab(a)} al ${dlab(b)}`;
+ $('mTitle').textContent=`Métricas del ${per}`;
+ $('mLead').textContent=note;
+ $('mStat').innerHTML=`<div><b>${nf(ses)}</b><span>sesiones</span></div><div><b>${nf(F[2])}</b><span>carritos</span></div><div><b>${nf(F[4])}</b><span>${F[4]===1?'compra':'compras'}${rev?' · '+moneyU(rev):''}</span></div><div><b>${igd.length?nf(igs(3)):'–'}</b><span>seguidores nuevos en Instagram</span></div>`;
+ $('mResSub').textContent=`GA4 del ${per}${igd.length?'. Instagram'+(key(b)>key('1107')?' al 7 de noviembre':''):''}.`;
+ $('mTiles').innerHTML=`<div class="tile focus"><div class="tl2">Sesiones</div><div class="tv">${nf(ses)}</div><div class="td" style="color:var(--sky2)">${pct(eng,ses,1)} con interacción</div></div>
+  <div class="tile"><div class="tl2">Ven un producto</div><div class="tv">${pct(F[1],F[0],1)}</div><div class="td mu">${nf(F[1])} de ${nf(F[0])} usuarios</div></div>
+  <div class="tile"><div class="tl2">Agregan al carrito</div><div class="tv">${nf(F[2])}</div><div class="td mu">${nf(F[3])} inician la compra</div></div>
+  <div class="tile"><div class="tl2">Compras</div><div class="tv">${nf(F[4])}</div><div class="td ${F[4]?'ok':'mu'}">${rev?moneyU(rev)+' en ventas':'&nbsp;'}</div></div>`;
+ $('mTrSub').textContent=`${per}, GA4. ${nf(ses)} sesiones, ${pct(eng,ses,1)} con interacción.`;
+ lineDays('dailym',ds.map(d=>`${+d.slice(2)}/${+d.slice(0,2)}`),ds.map(d=>DAY[d].t[0]));
+ const src=SRCN.map((l,i)=>{const v=sum(x=>x.s[i][0]),sc=sum(x=>x.s[i][2]);return {l,v,s:v?tfmt(sc/v):''}}).filter(r=>r.v>0);
+ const oth=src.find(r=>r.l==='Otras fuentes');hbars('sourcesm',src.filter(r=>r!==oth).sort((x,y)=>y.v-x.v).concat(oth?[oth]:[]));
+ $('mFuSub').textContent=`${per}. De ${nf(F[0])} usuarios, ${nf(F[3])} iniciaron la compra y ${nf(F[4])} compraron.`;
+ funnelChart('funm',[['Inician sesión',F[0],'100%'],['Ven un producto',F[1],pct(F[1],F[0],1)+' del total'],['Agregan al carrito',F[2],pct(F[2],F[1],1)+' de los que ven'],['Inician la compra',F[3],F[2]?pct(F[3],F[2],1)+' de los carritos':'–'],['Compran',F[4],F[4]?pct(F[4],F[3],0)+' de los que inician':'ninguno']]);
+ const pc=(c,v)=>v[1]?`<span class="pill ${c}">${pct(v[2],v[1],0)}</span>`:'–';
+ $('mDev').innerHTML=`<table><thead><tr><th></th><th>Mobile</th><th>Desktop</th></tr></thead><tbody>
+  <tr><td>Inicio de sesión</td><td><b>${nf(Fm[0])}</b></td><td><b>${nf(Fd[0])}</b></td></tr>
+  <tr><td>Ven producto</td><td>${nf(Fm[1])}</td><td>${nf(Fd[1])}</td></tr>
+  <tr><td>Agregan al carrito</td><td>${nf(Fm[2])}</td><td>${nf(Fd[2])}</td></tr>
+  <tr><td>Paso a carrito</td><td>${pc(Fm[2]/Fm[1]<Fd[2]/Fd[1]?'p-bad':'p-ok',Fm)}</td><td>${pc(Fd[2]/Fd[1]<Fm[2]/Fm[1]?'p-bad':'p-ok',Fd)}</td></tr>
+  <tr><td>Inician compra</td><td>${nf(Fm[3])}</td><td>${nf(Fd[3])}</td></tr>
+  <tr><td>Compran</td><td>${nf(Fm[4])}</td><td>${nf(Fd[4])}</td></tr></tbody></table>`;
+ $('mPrSub').textContent=`${per}, GA4.`;
+ const ln=LNAME.map((l,i)=>{const v=sum(x=>x.ln[i]?x.ln[i][0]:0),sc=sum(x=>x.ln[i]?x.ln[i][0]*x.ln[i][1]:0);return {l,v,s:v?tfmt(sc/v):''}}).filter(r=>r.v>0).sort((x,y)=>y.v-x.v).slice(0,7);
+ if(ln.length)hbars('landingm',ln);else $('landingm').innerHTML='<p class="ps">Sin entradas directas a fichas en el período.</p>';
+ const pv=sum(x=>x.pv[0]);
+ const pgs=PATHS.map((p,i)=>{const v=sum(x=>x.pg[i]?x.pg[i][0]:0),sc=sum(x=>x.pg[i]?x.pg[i][1]*x.pg[i][2]:0),u=sum(x=>x.pg[i]?x.pg[i][1]:0);return {l:PNAME[p]||p,v,s:u?tfmt(sc/u):''}}).filter(r=>r.v>0).sort((x,y)=>y.v-x.v).slice(0,8);
+ hbars('pagesm',pgs);
+ const rg=[0,1,2,3].map(i=>sum(x=>x.rg[i]));
+ $('mAuSub').textContent=`${per}, GA4.`;
+ $('mAuTiles').style.gridTemplateColumns='repeat(2,1fr)';
+ $('mAuTiles').innerHTML=`<div class="tile focus"><div class="tl2">Región Metropolitana</div><div class="tv">${pct(rg[0],F[0])}</div><div class="td" style="color:var(--sky2)">de los usuarios</div></div><div class="tile"><div class="tl2">Navegan en celular</div><div class="tv">${pct(Fm[0],F[0])}</div><div class="td mu">${nf(Fm[0])} de ${nf(F[0])} usuarios</div></div>`;
+ hbars('regionsm',[{l:'Región Metropolitana',v:rg[0],s:pct(rg[0],F[0])},{l:'Valparaíso',v:rg[1]},{l:'Biobío',v:rg[2]},{l:'Araucanía',v:rg[3]}].filter(r=>r.v>0));
+ if(igd.length){
+  $('mIgSub').textContent=`${dlab(igd[0])} al ${dlab(igd[igd.length-1])}.${key(b)>key('1107')?' Los datos de Instagram llegan al 7 de noviembre.':''}`;
+  const tl=(t,v)=>`<div class="tile"><div class="tl2">${t}</div><div class="tv">${v}</div></div>`;
+  $('mIgTiles').innerHTML=tl('Visualizaciones',nf(igs(0)))+tl('Seguidores nuevos',nf(igs(3)))+tl('Clics en el enlace',nf(igs(5)))+tl('Visitas al perfil',nf(igs(4)));
+  const ps=POSTS.filter(p=>key(p[0])>=key(a)&&key(p[0])<=key(b)).sort((x,y)=>y[2]-x[2]).slice(0,6);
+  if(ps.length)hbars('topPostsm',ps.map(p=>({l:p[1],v:p[2],s:`${+p[0].slice(2)}/${+p[0].slice(0,2)}`})));else $('topPostsm').innerHTML='<p class="ps">Sin publicaciones en el período.</p>';
+ }else{$('mIgSub').textContent='Sin datos de Instagram para este período: el export llega al 7 de noviembre.';$('mIgTiles').innerHTML='';$('topPostsm').innerHTML='';}
+ const gs=sum(x=>x.s[1][0]),ge=sum(x=>x.s[1][1]),gt=sum(x=>x.s[1][2]);
+ $('mGoSub').textContent=`${per}, datos de Analytics.`;
+ $('mGoTiles').innerHTML=`<div class="tile focus"><div class="tl2">Sesiones desde Google pago</div><div class="tv">${nf(gs)}</div><div class="td" style="color:var(--sky2)">${pct(gs,ses)} del tráfico</div></div><div class="tile"><div class="tl2">Con interacción</div><div class="tv">${pct(ge,gs)}</div><div class="td mu">${nf(ge)} sesiones</div></div><div class="tile"><div class="tl2">Tiempo de interacción</div><div class="tv">${gs?tfmt(gt/gs):'–'}</div><div class="td mu">promedio por sesión</div></div><div class="tile"><div class="tl2">Instagram pago, para comparar</div><div class="tv">${nf(sum(x=>x.s[0][0]))}</div><div class="td mu">${sum(x=>x.s[0][0])?tfmt(sum(x=>x.s[0][2])/sum(x=>x.s[0][0])):'–'} por sesión</div></div>`;
+ lineDays('dailyg',ds.map(d=>`${+d.slice(2)}/${+d.slice(0,2)}`),ds.map(d=>DAY[d].s[1][0]));
+ renderMeta(ds,per);renderEvo(ds);
+ return ds.length;
+}
+
+
+const META={};document.getElementById('metaData').textContent.trim().split('\n').forEach(l=>{const p=l.split('|');META[p[0]]=p[1].split(' ').map(x=>x.split('/').map(Number));});
+function renderMeta(ds,per){
+ const md=ds.filter(d=>META[d]);const s=(c,i)=>md.reduce((t,d)=>t+META[d][c][i],0);
+ const nov=md.some(d=>d.slice(0,2)==='11');const C=[[nov?'Posteos · visitas al perfil':'Engagement · posteos','visitas al perfil'],['Tráfico · consideración','visitas a la web'],['Remarketing · ventas','compras'],['Interacción · posteos IG','interacciones']];
+ const inv=[0,1,2,3].map(c=>s(c,0)),res=[0,1,2,3].map(c=>s(c,1)),clk=[0,1,2,3].map(c=>s(c,2));
+ const I=inv.reduce((a,b)=>a+b,0),K=clk.reduce((a,b)=>a+b,0);
+ $('mMeSub').textContent=md.length?`${per}, en CLP. Export diario de Ads Manager.`:'Sin datos de Meta Ads para este período.';
+ $('mMeTiles').innerHTML=`<div class="tile focus"><div class="tl2">Invertido</div><div class="tv">${moneyU(I)}</div><div class="td" style="color:var(--sky2)">${md.length} días con datos</div></div>
+  <div class="tile"><div class="tl2">Clics (todos)</div><div class="tv">${nf(K)}</div><div class="td mu">${K?moneyU(I/K)+' cada uno':'–'}</div></div>
+  <div class="tile"><div class="tl2">Visitas al perfil</div><div class="tv">${nf(res[0])}</div><div class="td mu">desde ${nov?'Posteos':'Engagement'}</div></div>
+  <div class="tile"><div class="tl2">Visitas a la web</div><div class="tv">${nf(res[1])}</div><div class="td mu">desde Tráfico</div></div>`;
+ $('mMeTbl').innerHTML=`<table><thead><tr><th>Campaña</th><th>Inversión</th><th>Clics</th><th>Resultado</th><th>Costo por resultado</th></tr></thead><tbody>${C.map((c,i)=>!inv[i]&&!clk[i]?'':`<tr><td><b>${c[0].split(' · ')[0]}</b> · ${c[0].split(' · ')[1]}</td><td>${moneyU(inv[i])}</td><td>${nf(clk[i])}</td><td>${i===2?`${nf(res[i])} ${c[1]}`:nf(res[i])+' '+c[1]}</td><td>${res[i]?moneyU(inv[i]/res[i]):'–'}</td></tr>`).join('')}</tbody></table>`;}
+
+function weeksIn(ds){const out=[];let cur=[];ds.forEach(d=>{const dt=new Date(2026,+d.slice(0,2)-1,+d.slice(2));const dm=+d.slice(2),nw=d.slice(0,2)>='11'?(dm%7===1):(dt.getDay()===1||dm===1);if(cur.length&&nw){out.push(cur);cur=[];}cur.push(d);});if(cur.length)out.push(cur);return out;}
+function renderEvo(ds){
+ const P=$('mEvoP');const W=weeksIn(ds);if(W.length<2){P.hidden=true;return;}P.hidden=false;
+ const lab=w=>w.length===1?dlab(w[0]):`${+w[0].slice(2)}${w[0].slice(0,2)!==w[w.length-1].slice(0,2)?' '+MES[+w[0].slice(0,2)-1]:''}–${+w[w.length-1].slice(2)} ${MES[+w[w.length-1].slice(0,2)-1]}`;
+ const R=W.map(w=>{const s=f=>w.reduce((t,d)=>t+f(d),0);const F=i=>s(d=>DAY[d].f[0][i]+DAY[d].f[1][i]+DAY[d].f[2][i]);
+  return {l:lab(w),n:w.length,ses:s(d=>DAY[d].t[0]),eng:s(d=>DAY[d].t[1]),vio:F(1),ini:F(0),car:F(2),com:F(4),meta:s(d=>META[d]?META[d][0][0]+META[d][1][0]+META[d][2][0]+META[d][3][0]:0),ig:s(d=>IG[d]?IG[d][3]:0),igOk:w.every(d=>IG[d])};});
+ const Wd=820,H=240,pl=46,pr=46,pt=26,pb=34,mx=Math.max(...R.map(r=>r.ses),1),mc=Math.max(...R.map(r=>r.car),1);
+ const top=Math.ceil(mx*1.2/100)*100,topc=Math.ceil(mc*2.6/5)*5;const n=R.length,bw=Math.min(90,(Wd-pl-pr)/n*.55);
+ const X=i=>pl+(i+.5)*(Wd-pl-pr)/n,Y=v=>pt+(H-pt-pb)*(1-v/top),Yc=v=>pt+(H-pt-pb)*(1-v/topc);let s='';
+ for(let v=0;v<=top;v+=top/4)s+=`<line x1="${pl}" x2="${Wd-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${cv('--line')}"/><text x="${pl-8}" y="${Y(v)+4}" font-size="10.5" text-anchor="end" fill="${cv('--mut')}">${nf(v)}</text>`;
+ R.forEach((r,i)=>{s+=`<rect x="${X(i)-bw/2}" y="${Y(r.ses)}" width="${bw}" height="${Y(0)-Y(r.ses)}" rx="8" fill="${cv('--sky')}" opacity=".75"/><text x="${X(i)}" y="${Y(r.ses)-8}" font-size="12" font-weight="700" text-anchor="middle" fill="${cv('--ink')}">${nf(r.ses)} ses.</text><text x="${X(i)}" y="${H-10}" font-size="12" text-anchor="middle" fill="${cv('--ink2')}">${r.l}</text>`;});
+ s+=`<polyline points="${R.map((r,i)=>X(i)+','+Yc(r.car)).join(' ')}" fill="none" stroke="${cv('--navy')}" stroke-width="3"/>`;
+ R.forEach((r,i)=>{s+=`<circle cx="${X(i)}" cy="${Yc(r.car)}" r="5.5" fill="${cv('--surface')}" stroke="${cv('--navy')}" stroke-width="3"/><text x="${X(i)+10}" y="${Yc(r.car)+4}" font-size="11.5" font-weight="700" fill="${cv('--navy')}">${r.car}</text>`;});
+ $('evoSvg').innerHTML=s;
+ const tot=k=>R.reduce((t,r)=>t+r[k],0);
+ const row=(r,b)=>`<tr${b?' style="font-weight:700"':''}><td>${r.l}</td><td>${nf(r.ses)}</td><td>${pct(r.eng,r.ses,1)}</td><td>${pct(r.vio,r.ini,1)}</td><td>${nf(r.car)}</td><td>${nf(r.com)}</td><td>${moneyU(r.meta)}</td><td>${r.igOk||b?nf(r.ig):nf(r.ig)+'¹'}</td></tr>`;
+ const T={l:'Total',ses:tot('ses'),eng:tot('eng'),vio:tot('vio'),ini:tot('ini'),car:tot('car'),com:tot('com'),meta:tot('meta'),ig:tot('ig'),igOk:true};
+ $('mEvo').innerHTML=`<table><thead><tr><th>Semana</th><th>Sesiones</th><th>Interacción</th><th>Ven producto</th><th>Carritos</th><th>Compras</th><th>Inversión Meta</th><th>Seguidores IG</th></tr></thead><tbody>${R.map(r=>row(r)).join('')}${row(T,true)}</tbody></table>`;
+ const notes=[];if(R.some(r=>!r.igOk))notes.push('¹ Instagram llega al 7/11.');
+ $('mEvoNote').textContent=notes.join(' ');}
+/* ---------- modos, períodos y navegación ---------- */
+const NAVDOTS={s4:null,s5:{trafico:'mid',funnel:'mid',productos:'mid',audiencia:'',mejoras:'ok',redes:'ok',meta:'mid',google:'ok',presupuesto:'mid',pendientes:'bad',ct:6},s6:{trafico:'mid',funnel:'bad',productos:'mid',audiencia:'mid',mejoras:'ok',redes:'mid',meta:'mid',google:'ok',presupuesto:'mid',pendientes:'bad',ct:6}};
+const navBtns=[...document.querySelectorAll('#nav button')];
+const DOT0=navBtns.map(b=>b.querySelector('.sd').className),CT0=document.querySelector('#nav .ct').textContent;
+const DAYS0=$('daysBox').innerHTML,TOP0=document.querySelector('.topbar .t').textContent;
+let MODE='s6',SUF='6',cur=null,curPage='resumen';
+function show(p){
+ if(!$(p+SUF))p='resumen';curPage=p;
+ document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id===p+SUF));
+ navBtns.forEach(b=>b.setAttribute('aria-current',b.dataset.p===p));
+ $('cur').textContent=$(p+SUF).dataset.t;menu(false);
+ if(window.scrollY>200)window.scrollTo({top:document.querySelector('.pbar').offsetTop-60,behavior:'smooth'});}
+navBtns.forEach(b=>b.onclick=()=>show(b.dataset.p));
+function setMode(m){
+ MODE=m;SUF=m==='s4'?'':m==='s5'?'5':m==='s6'?'6':'m';
+ ['s4','s5','s6','m'].forEach(k=>$('wk-'+k).hidden=k!==m);
+ navBtns.forEach((b,i)=>{b.hidden=!$(b.dataset.p+SUF);const sd=b.querySelector('.sd');
+  if(m==='s4')sd.className=DOT0[i];else if(NAVDOTS[m])sd.className='sd '+(NAVDOTS[m][b.dataset.p]||'');else sd.className='sd';});
+ document.querySelectorAll('#nav .grp-l').forEach(g=>{let n=g.nextElementSibling,vis=false;while(n&&n.tagName==='BUTTON'){if(!n.hidden)vis=true;n=n.nextElementSibling;}g.hidden=!vis;});
+ const ct=document.querySelector('#nav .ct');ct.textContent=m==='s4'?CT0:NAVDOTS[m]?NAVDOTS[m].ct:'';
+ const tt=document.querySelector('.topbar .t');
+ if(m==='s4'){$('daysBox').innerHTML=DAYS0;tt.textContent=TOP0;}
+ else if(m==='s5'){$('daysBox').innerHTML='<div class="num">1</div><p>compra registrada en la semana, por <b style="color:#fff">$419.990</b>.</p>';tt.textContent='Reporte semana 5';}
+ else if(m==='s6'){$('daysBox').innerHTML='<div class="num">7</div><p>carritos y <b style="color:#fff">0 compras</b> en la semana.</p>';tt.textContent='Reporte semana 1 · noviembre';}
+ show(curPage);}
+function tab(t){$('tabW').setAttribute('aria-pressed',t==='w');$('tabC').setAttribute('aria-pressed',t==='c');$('pweek').hidden=t!=='w';$('pcust').hidden=t!=='c';}
+function pick(w){
+ tab('w');document.querySelectorAll('#pwk .wb').forEach(b=>b.setAttribute('aria-pressed',b.dataset.w===w.id));
+ if(w.rep){cur=null;setMode(w.rep);}
+ else{cur=[w.a,w.b,w.id[0]==='m'?`${w.l} completo: métricas del mes y su evolución semana a semana.`:`${w.l} (${w.r}) no tiene reporte escrito: se muestran solo las métricas.`];const n=renderM(...cur);$('daysBox').innerHTML=`<div class="num">${n}</div><p>días en ${w.l.toLowerCase()}.</p>`;setMode('m');document.querySelector('.topbar .t').textContent=w.l;}
+ try{localStorage.setItem('nsWeek',w.id)}catch(e){}}
+function applyCustom(){
+ const a=$('pa').value,b=$('pb').value,msg=$('pmsg');msg.textContent='';
+ if(!a||!b){msg.textContent='Elegí las dos fechas.';return;}
+ let A=fromIso(a),B=fromIso(b);if(key(A)>key(B))[A,B]=[B,A];
+ if(!DAY[A]||!DAY[B]){msg.textContent='Hay datos del 1 de octubre al 7 de noviembre.';return;}
+ cur=[A,B,'Período personalizado: se muestran solo las métricas, sin reporte escrito.'];const n=renderM(...cur);
+ $('daysBox').innerHTML=`<div class="num">${n}</div><p>días en el período elegido.</p>`;
+ document.querySelectorAll('#pwk .wb').forEach(b=>b.setAttribute('aria-pressed','false'));
+ setMode('m');document.querySelector('.topbar .t').textContent='Personalizado';}
+function renderWeeks(){const m=$('pmes').value;
+ $('pwk').innerHTML=WEEKS.filter(w=>w.m===m).map(w=>`<button type="button" class="wb" data-w="${w.id}" aria-pressed="false"><b>${w.l.replace('Semana ','S')}</b><span>${w.r}</span><i class="tag ${w.rep?'rep':'met'}">${w.rep?'reporte':'métricas'}</i></button>`).join('')+`<button type="button" class="wb mes" data-w="${MONTHS[m].id}" aria-pressed="false"><b>${MONTHS[m].l}</b><span>${MONTHS[m].r}</span><i class="tag met">mes completo</i></button>`;
+ document.querySelectorAll('#pwk .wb').forEach(b=>b.onclick=()=>pick(WEEKS.find(w=>w.id===b.dataset.w)||Object.values(MONTHS).find(x=>x.id===b.dataset.w)));}
+$('pmes').onchange=renderWeeks;renderWeeks();
+$('tabW').onclick=()=>tab('w');$('tabC').onclick=()=>tab('c');
+$('papply').onclick=applyCustom;
+function renderAll(){renderS4();renderS5();renderS6();if(cur)renderM(...cur);}
+renderS4();renderS5();renderS6();
+let start='s6';try{start=localStorage.getItem('nsWeek')||'s6'}catch(e){}
+const W0=WEEKS.find(w=>w.id===start)||Object.values(MONTHS).find(x=>x.id===start)||WEEKS[5];$('pmes').value=W0.m||(W0.id==='m11'?'11':'10');renderWeeks();
+pick(W0);
+
+</script>
+</body>
+</html>
